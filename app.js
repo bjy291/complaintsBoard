@@ -2,28 +2,10 @@
 {//서버설정###################################서버설정#####################################서버설정
     var express=require('express');
     var bodyParser=require('body-parser')
-    var mysql=require('mysql');
     var app=express();
-    var mysql=require('mysql');
+    
     var session=require('express-session');
-    var mss=require('express-mysql-session')(session);
-    var option={
-            host:'127.0.0.1',
-            port:3306,
-            user:'root',
-            password:'bjy969920',
-            database:'complaints',
-            charset:'utf8'
-    }
-    var sstore=new mss(option);
-    var con=mysql.createConnection({
-            host:'127.0.0.1',
-            user:'root',
-            password:'bjy969920',
-            database:'complaints',
-            charset:'utf8'
-    })
-    con.connect();
+    
     app.locals.pretty=true;
     app.set('view engine','jade');
     app.set('views',["./views"]);
@@ -45,18 +27,18 @@
     //         store:sstore
     // }));
     app.use('/', require('./route/controller/mainctr'));
-    app.use(function (req, res, next) {
-        next(createError(404));
-    });
-    app.use(function (err, req, res, next) {
-        // set locals, only providing error in development
-        res.locals.message = err.message;
-        res.locals.error = req.app.get("env") === "development" ? err : {};
+//     app.use(function (req, res, next) {
+//         next(createError(404));
+//     });
+//     app.use(function (err, req, res, next) {
+//         // set locals, only providing error in development
+//         res.locals.message = err.message;
+//         res.locals.error = req.app.get("env") === "development" ? err : {};
       
-        // render the error page
-        res.status(err.status || 500);
-        res.render("error.jade");
-      });
+//         // render the error page
+//         res.status(err.status || 500);
+//         res.render("error.jade");
+//       });
 
     app.listen(3000,function(){
             console.log('Conneted 3000 port');
