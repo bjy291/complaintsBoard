@@ -3,7 +3,7 @@
     var express=require('express');
     var bodyParser=require('body-parser')
     var app=express();
-    // var mysql=require('mysql');
+    var mysql=require('mysql');
     var session=require('express-session');
     var mss=require('express-mysql-session')(session);
     var option={
