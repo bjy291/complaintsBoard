@@ -2,6 +2,7 @@
 {//서버설정###################################서버설정#####################################서버설정
     var express=require('express');
     var bodyParser=require('body-parser')
+    var mysql=require('mysql');
     var app=express();
     var mysql=require('mysql');
     var session=require('express-session');
@@ -10,16 +11,16 @@
             host:'127.0.0.1',
             port:3306,
             user:'root',
-            password:'root',
-            database:'complaintsBoard',
+            password:'bjy969920',
+            database:'complaints',
             charset:'utf8'
     }
     var sstore=new mss(option);
     var con=mysql.createConnection({
             host:'127.0.0.1',
             user:'root',
-            password:'root',
-            database:'complaintsBoard',
+            password:'bjy969920',
+            database:'complaints',
             charset:'utf8'
     })
     con.connect();
