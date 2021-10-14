@@ -1,0 +1,127 @@
+doctype html
+html
+        head
+                title 프젝
+                meta(charset='utf-8')
+                meta(name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1, user-scalable=no")
+                link(rel='stylesheet' href='../css/main.css')
+                link(rel="stylesheet" href="../css/common.css")
+                link(rel="stylesheet" href="../css/inc.css")
+                link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@3.x/css/materialdesignicons.min.css")
+                //- script(src="https://code.jquery.com/jquery-3.4.1.js")
+                link(href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css")
+                script(src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js")
+                script(src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js")
+
+        body(id="dong24")
+            div(id="top")
+                div(class="wrap")
+                    p(id="skipnav")
+                        a(href="#contents") 본문바로가기
+                    h1 
+                        a
+                            img(src="/image/logo.gif" alt="새로운 변화 모두가 행복한 동구 행정복지센터") 
+                            img(src="/image/logo2.gif" alt="송현1·2동")
+
+                    div(id="nav")
+                        h2(class="dp_mb")
+                            a(href="#" class="toggle") MENU
+                        ul
+                            li(class="menu1")
+                                a(href="/open_content/dong/sub/greeting.jsp?dong=24") 행정복지센터안내
+                                div(id="submenu1" class="submenu")
+                                    ul
+                                        li
+                                            a(href="/open_content/dong/sub/greeting.jsp?dong=24") 인사말씀
+                                        li
+                                            a(href="/open_content/dong/sub/organ.jsp?dong=24") 직원소개
+                                        li
+                                            a(href="/open_content/dong/sub/intro.jsp?dong=24") 우리동은 
+                                        li
+                                            a(href="/open_content/dong/sub/present.jsp?dong=24") 일반현황
+                                        li
+                                            a(href="/open_content/dong/sub/group.jsp?dong=24") 자생단체안내
+                                        li
+                                            a(href="/open_content/dong/sub/location.jsp?dong=24") 오시는길
+
+                            li(class="menu2")
+                                a(href="/open_content/dong/sub/register.jsp?dong=24") 민원업무안내
+                                div(id="submenu2" class="submenu")
+                                    ul
+                                        li
+                                            a(href="/open_content/dong/sub/register.jsp?dong=24") 인감
+                                        li
+                                            a(href="/open_content/dong/sub/family.jsp?dong=24") 가족관계등록
+                                        li
+                                            a(href="/open_content/dong/sub/resident.jsp?dong=24") 주민등록
+                                        li
+                                            a(href="/open_content/dong/sub/civil24.jsp?dong=24") 정부24
+                                        li
+                                            a(href="/open_content/dong/sub/defence.jsp?dong=24") 민방위
+
+                            li(class="menu3")
+                                a(href="/open_content/dong/sub/center.jsp?dong=24") 주민자치센터
+                                div(id="submenu3" class="submenu")
+                                    ul
+                                        li
+                                            a(href="/open_content/dong/sub/center.jsp?dong=24") 주민자치센터소개
+                                        li
+                                            a(href="/open_content/dong/sub/rules.jsp?dong=24") 운영조례
+                                            
+                                        li
+                                            a(href="/open_content/dong/sub/facility.jsp?dong=24") 시설안내
+                                        li
+                                            a(href="/open_content/dong/sub/committee.jsp?dong=24") 주민자치회
+                                        li
+                                            a(href="/open_content/dong/sub/program.jsp?dong=24") 프로그램소개
+
+                            li(class="menu4")
+                                a(href="/open_content/dong/sub/public.jsp?dong=24") 동네주요시설
+                                div(id="submenu4" class="submenu")
+                                    ul
+                                        li
+                                            a(href="/open_content/dong/sub/public.jsp?dong=24") 공공시설
+                                        li
+                                            a(href="/open_content/dong/sub/school.jsp?dong=24") 학교
+                                        li
+                                            a(href="/open_content/dong/sub/hospital.jsp?dong=24") 병원
+                                        li
+                                            a(href="/open_content/dong/sub/finance.jsp?dong=24") 금융기관
+                                        li
+                                            a(href="/open_content/dong/sub/childcare.jsp?dong=24") 보육시설
+                                        li
+                                            a(href="/open_content/dong/sub/etc.jsp?dong=24") 기타
+
+                            li(class="menu5")
+                                a(href="/open_content/dong/sub/notice.jsp?dong=24") 참여광장
+                                div(id="submenu5" class="submenu")
+                                    ul
+                                        li 
+                                            a(href="/open_content/dong/sub/notice.jsp?dong=24&charge_dept_cd2=24") 공지사항
+                                        li
+                                            a(href="/open_content/dong/sub/survey.jsp?dong=24") 설문조사
+                                        li
+                                            a(href="/open_content/dong/sub/photo.jsp?dong=24&charge_dept_cd2=24") 포토갤러리
+                                        li
+                                            a(href="/open_content/dong/sub/data.jsp?dong=24&charge_dept_cd2=24") 자료실
+                    div(class="contact")
+                        p(class="ir tit") 대표전화번호
+                        p(class="number") 032.770.5820
+                        p(class="time") 근무시간 : 평일 09:00~18:00
+                        a(href="#close" class="close")
+                            img(src="/open_content/dong/images/nav_close.gif" alt="닫기")
+
+
+        script.
+                        $(function(){
+                            $(window).resize(function(){
+                            var width = parseInt($(this).width());							
+                            if (width<769) {							
+                                    $("#nav>ul>li>a").addClass('link');
+                                    $("#nav>ul>li.menu6>a.link, #nav>ul>li.menu7>a.link").removeClass('link');
+                                    $("#nav>ul>li>a.link").attr("href","#");
+                            } else if (width>770) {
+                                $("#nav>ul>li>a").removeClass('link');
+                            }					
+                            }).resize();				
+                        });	

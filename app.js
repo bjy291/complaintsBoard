@@ -13,8 +13,8 @@
     app.use("/css", express.static(__dirname + '/css'));
     app.use(express.static(__dirname+'/img'));
     app.use("/img", express.static(__dirname + '/img'));
-    app.use(express.static(__dirname+'/assets'));
-    app.use("/assets", express.static(__dirname + '/assets'));
+    app.use(express.static(__dirname+'/image'));
+    app.use("/image", express.static(__dirname + '/image'));
     app.use(express.static(__dirname+'/js'));
     app.use("/js", express.static(__dirname + '/js'));
     app.use("/dbimg", express.static(__dirname + '/dbimg'));
