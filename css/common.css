@@ -1,6 +1,4 @@
 @charset "utf-8";
-/* @import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css); */
-@import url(//www.icdonggu.go.kr/open_content/share/css/nanumgothic.css);
 
 /***** reset *****/
 html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,pre,abbr,address,cite,code,del,dfn,em,img,ins,kbd,q,samp,small,strong,sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,caption,tbody,tfoot,thead,tr,th,td,canvas,details,figcaption,summary,time,mark,audio,video {margin:0; padding:0;}
@@ -10,7 +8,7 @@ img, input.image, fieldset,iframe {border:0 none;}
 img, fieldset {border:none;}
 li img, dd img {vertical-align:top;}
 input,textarea {vertical-align:middle; font-family:'Nanum Gothic','나눔고딕', sans-serif;}
-hr, caption {overflow:hidden; /*text-indent:100%; white-space:nowrap;*/ height:0; line-height:0px; font-size:0px;}
+/* hr, caption {overflow:hidden; /*text-indent:100%; white-space:nowrap;*/ height:0; line-height:0px; font-size:0px;} */
 select {padding:1px; vertical-align:top; font-family:'Nanum Gothic','나눔고딕', sans-serif; color:#5a5a5a;}
 legend {display:block; width:0; height:0; /*text-indent:100%; white-space:nowrap;*/ overflow:hidden; line-height:0;}
 
@@ -37,7 +35,7 @@ span.button, img.button, a.button {cursor: pointer;	vertical-align: middle;}
 table {border-collapse:collapse;}
 /* .dipy_n, hr { position:absolute; visibility:hidden; width:0; height:0; overflow:hidden; font-size:0; line-height:0; }
 .dipy_n, hr {display:inline-block; width:0; height:0; overflow:hidden; line-height:0; margin:0; border:0;} */
-.dipy_n, hr {display:none;}
+/* .dipy_n, hr {display:none;} */
 .search form fieldset label.dipy_n{display:block; overflow:hidden;  text-indent:-5000px; font-size:0; line-height:0; position:absolute;/*cursor:pointer;*/}
 .dipy_inline {display:inline;}
 .background_n {background:none;}

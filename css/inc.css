@@ -25,9 +25,9 @@
 #top #nav .submenu li { margin-bottom:10px; }
 #top #nav .submenu a { font-size:14px; }
 
-.contact { background:url('/open_content/dong/images/phone_bg.gif') no-repeat right center; }
+.contact { background:url('/img/phone_bg.gif') no-repeat right center; }
 .contact>p { margin-left:30px; margin-top:10px; }
-.contact .tit { width:85px; height:17px; margin-top:28px; background:url('/open_content/dong/images/phone_tit.gif') no-repeat; }
+.contact .tit { width:85px; height:17px; margin-top:28px; background:url('/img/phone_tit.gif') no-repeat; }
 .contact .number { font-size:24px; margin-top:15px;  font-weight:600; color:#a0326a; }
 .contact .time { margin-bottom:28px; font-size:14px; font-weight:600; color:#616060; }
 #top .contact { width:200px; text-align:center; padding-top:95px; background-position:center 30px; }
