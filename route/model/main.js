@@ -15,3 +15,8 @@ exports.login=(req,res)=>{
         console.log("get notice");
         res.render('login.jade');
 }
+
+exports.regi=(req,res)=>{
+        console.log("get notice");
+        res.render('regi.jade');
+}

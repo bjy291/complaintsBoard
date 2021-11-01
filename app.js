@@ -27,6 +27,7 @@
     //         store:sstore
     // }));
     app.use('/', require('./route/controller/mainctr'));
+    app.use('/regi', require('./route/controller/regictr'));
 //     app.use(function (req, res, next) {
 //         next(createError(404));
 //     });

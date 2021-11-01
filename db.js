@@ -1,6 +1,6 @@
 var mysql=require('mysql');
 var db=mysql.createConnection({
-        host:'http://114.71.137.109/', //db주소
+        host:'114.71.137.109', //db주소
         user:'202147018', //아이디
         password:'bjy969920',//비밀번호
         database:'SW_201544089', //스키마이름

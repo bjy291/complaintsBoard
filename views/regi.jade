@@ -1,0 +1,156 @@
+include ./header.jade
+link(rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css")
+link(rel='stylesheet' href='../css/regi.css')
+
+div(id="contents" class="wrap")  
+        #side.NG.clearfix 
+            .side_title 
+                span 회원
+            .side_menu 
+                ul 
+                    li 
+                        a(href="#") 로그인 
+                    hr#sideline
+                    li 
+                        a(href="#") ID/PW 찾기 
+                    hr#sideline
+                    li 
+                        a(href="/regi") 회원가입 
+        #tCon
+            #maincontent
+                h3 회원가입
+                hr#sideline
+
+            .card-body
+                    form#register(action="/regi" method="post")
+                        ul 
+                                .input-group.form-group
+                                    span(style="margin-right:90px") ID
+                                    input.form-control#idcheck(type="text" name="id")
+                                    button#idck(type="button") 중복검사
+                                .input-group.form-group
+                                    span(style="margin-right:82px") PW
+                                    input.form-control#pw(type="password" name="pw")
+                                .input-group.form-group
+                                    span(style="margin-right:40px") PW 확인
+                                    input.form-control#pwcheck(type="password" name="pwcheck")
+                                .input-group.form-group
+                                    span(style="margin-right:72px") 성함
+                                    input.form-control#name(type="text" name="name")
+                                .input-group.form-group
+                                    span 주민등록번호
+                                    input.form-control#pcode(type="text" name="pcode")
+                                    span - 
+                                    input.form-control#pcode2(type="text" name="pcode2")
+                                .input-group.form-group
+                                    span(style="margin-right:18px") 휴대폰번호
+                                    input.form-control#phone(type="text" name="phone" placeholder="- 없이 입력해주세요.")
+                                .input-group.form-group
+                                    span(style="margin-right:72px") 주소
+                                    input.form-control#addr(type="text" name="addr")
+                                .input-group.form-group
+                                    span(style="margin-right:30px") 주소 상세
+                                    input.form-control#addr2(type="text" name="addr2")
+                                .input-group.form-group
+                                    span(style="margin-right:52px") 이메일
+                                    input.form-control#email(type="text" name="email")
+                                .form-group 
+                                    input.btn.btn-outline-danger.float-right.login_btn#regibtn(type="button" name="btn" value="회원가입")
+include ./footer.jade
+        script.
+            var idsave=null; //아이디저장
+            var emailsave=null; //이메일저장
+            var ic="false"; //아이디체크
+            var ec="false"; //이메일체크
+        
+            $('#idck').click(function(){
+                var text = $("#idcheck").val();
+                var regexp = /[0-9a-zA-Z;\-]/; // 숫자,영문,특수문자
+                if(text.length>20 || text.length<6){
+                    alert('아이디는 6자에서 20자까지 가능합니다.');
+                    return;
+                }
+                for(var i=0; i<text.length; i++){
+                    if(text.charAt(i) != " " && regexp.test(text.charAt(i)) == false){
+                        alert('특수문자는 입력할 수 없습니다.');
+                        return;
+                    }
+                }
+                var id=$("#idcheck").val();
+
+                $.ajax({
+                    url:"/regi/idcheck",
+                    dataType:"json",
+                    type:"post",
+                    data:{'id': id},
+                    success: function(result){
+                        if(result.result){
+                            alert('중복된 아이디입니다.');
+                        }else{
+                            alert('사용가능한 아이디입니다.');
+                            idsave=$("#idcheck").val();
+                            ic="false";
+                        }
+                    }
+                })
+
+            });
+            
+            $("#regibtn").click(function(){
+ 
+                var id=$('#idcheck').val();
+                var pw=$('#pw').val();
+                var name=$("#name").val();
+                var pwcheck=$('#pwcheck').val();
+                var pcode=$("#pcode").val();
+                var pcode2=$("#pcode2").val();
+                var addr=$("#addr").val();
+                var addr2=$("#addr2").val();
+                var number=$("#phone").val();
+                var email=$("#email").val();
+
+                if(id==''){
+                    alert("아이디를 입력하세요.");
+                                       
+                }else if(pw==''){
+                    alert("비밀번호를 입력하세요.");
+                }else if(pwcheck==''){
+                    alert("비밀번호확인을 입력하세요.");
+                }else if(name==''){
+                    alert("이름을 입력하세요.");
+                }else if(number==""){
+                    alert("휴대폰번호를 입력하세요");
+                }else if(pw.length>20 || pw.length<6){
+                    alert("비밀번호는 6자에서 20자까지 가능합니다.");
+                }else if(pw!=pwcheck){
+                    alert("비밀번호가 일치하지 않습니다.");
+                }else if(idsave!=id){
+                    alert("아이디중복을 다시 확인 해주세요.");
+                    alert(idsave)
+                    alert(id)
+                                      
+            
+                    ic="true";
+                }else if(addr==''){
+                    alert('주소를 입력해주세요.');
+                }else if(addr2 == ''){
+                    alert('상세 주소를 입력해주세요.');
+                }else if(email == ''){
+                    alert('이메일을 입력해주세요.')
+                }else if(pcode == ''){
+                    alert('주민번호 앞자리를 입력해주세요.')
+                }else if(pcode2 == ''){
+                    alert('주민번호 뒷자리를 입력해주세요.')
+                }else if(pcode.length != 6){
+                    alert('주민번호 앞자리 6자를 입력해주세요.')
+                }else if(pcode2.length != 7){
+                    alert('주민번호 뒷자리 7자를 입력해주세요.')
+                }
+                else{
+                    $('#register').submit();
+                }
+            })
+                    
+                    
+                    
+                    

@@ -1,24 +1,42 @@
 include ./header.jade
+link(rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css")
 div(id="contents" class="wrap")            
         #side.NG.clearfix 
             .side_title 
-                span 로그인
+                span 회원
             .side_menu 
                 ul 
-                    li 로그인
+                    li 
+                        a(href="#") 로그인 
                     hr#sideline
-                    li ID/PW 찾기
+                    li 
+                        a(href="#") ID/PW 찾기 
                     hr#sideline
-                    li 회원가입
+                    li 
+                        a(href="/regi") 회원가입 
         #tCon
             #maincontent
                 h3 로그인
                 hr#sideline
-                .login
-                    p 아이디
-                        input(type="text" style="margin-left:25px")
-                    p 패스워드
-                        input(type="text" style="margin-left:10px")
-                    button#loginbtn 로그인하기
+
+        
+            .card-body
+                form(action="" method="post")
+                    .input-group.form-group
+                        .input-group-prepend
+                            span.input-group-text
+                                i.fas.fa-user
+                        input.form-control(type="text" placeholder="아이디")
+                    .input-group.form-group
+                        .input-group-prepend
+                            span.input-group-text
+                                i.fas.fa-key
+                        input.form-control(type="password" name="password" placeholder="패스워드")
+                    .form-group 
+                        input.btn.btn-outline-danger.float-right.login_btn(type="submit" name="btn" value="Login")
+        #mCon
+            .lgntext
+                a(href="")  ID/PW 찾기
+                a(href="/regi")  회원가입
 include ./footer.jade
                 

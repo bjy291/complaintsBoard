@@ -10,7 +10,7 @@ body { background:#f3f4f6; }
 #contents {
   z-index: 0;
   padding: 40px 0;
-  height: 800px;
+  height: auto;
 }
 
 #bothr{
@@ -150,6 +150,12 @@ ul, li, dl, dd {list-style-type:none;}
 .side_menu{
   position: relative;
 }
+
+.side_menu a{
+  color: black;
+  font-size: 18px;
+}
+
 .side_menu ul{
     display: block;
     list-style-type: disc;
@@ -167,27 +173,20 @@ ul, li, dl, dd {list-style-type:none;}
   background-color: blue;
 }
 
-.login{
-  float: left;
-  width: 100%;
-  margin: 50px 0px 0px 30px;
-  position: relative;
-}
-.login input{
+.card-body{
   width: 80%;
-  height: 50px;
+  margin-left: 50px;
+  margin-top: 150px;
 }
-.login p{
-  width: 60%;
-  height: 50px;
+.lgntext{
+  margin: 10px 10px 10px 267px;
 }
-#loginbtn{
-  margin-left: 10px;
-  width: 200px;
-  height: 100px;
-  display: inline-block;
-  float: left;
-  
+.lgntext a{
+  margin-left: 20px;
+  color: black;
+  border: 1px solid;
+  font-size: 20px;
+  padding: 5px;
 }
 /* #contents { z-index:0; padding:40px 0; }
 .prev, .stop, .next { display:inline-block; text-indent:100%; white-space:nowrap; overflow:hidden; font-size:0; line-height:0; background:url('/open_content/main/images/main/icon_play.png') no-repeat; }
