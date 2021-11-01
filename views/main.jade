@@ -1,28 +1,117 @@
-include ./header.jade 
-div(id="content" class="wrap")
-    br
-    div(class="Gomain")
-        div(class="leftbanner")
-            div(class="contact_c")
-                div(class="contact")
-                    p(class="ir tit")
-                    p(class="number") 010-5896-2222
-            
-            a(class="portfolio-item" href="#!" id="1")
-                div(class="caption")
-                    div(class="caption-content")
-                        div(class="h1") ① 
-                        p(class="mb-0") 2등
-                img(class="img-fluid" src="/img/main4.jpg" alt="...")
-        
-        div(class="slider")
-            div
-                img(src="/img/mainimg1.jpg", id="slider_image")
-            div
-                img(src="/img/mainimg2.jpg", id="slider_image")
-            div
-                img(src="/img/mainimg3.jpg", id="slider_image")
 
+doctype html
+html
+        head
+                title 프젝
+                meta(charset='utf-8')
+                meta(name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1, user-scalable=no")
+                link(rel='stylesheet' href='../css/main.css')
+                //link(rel="stylesheet" href="../css/common.css")
+                link(rel="stylesheet" href="../css/inc.css")
+                script(src="https://code.jquery.com/jquery-3.4.1.js")
+                link(href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css")
+                script(src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js")
+                //script(src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js")
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
+                script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js")
+                script(src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js")
+
+
+
+
+        body(id="dong24")
+            div(id="top")
+                div(class="wrap")
+                    h1 
+                        a 민원처리센터
+                            //img(src="/image/logo.gif" alt="새로운 변화 모두가 행복한 동구 행정복지센터") 
+                            //img(src="/image/logo2.gif" alt="송현1·2동")
+
+                    div(id="nav")
+                        ul
+                            li(class="menu1")
+                                a(href="/notice") 공지사항
+                                
+
+                            li(class="menu2")
+                                a(href="/open_content/dong/sub/register.jsp?dong=24") 민원게시판
+                               
+
+                            li(class="menu3")
+                                a(href="/open_content/dong/sub/center.jsp?dong=24") 요청게시판
+                                
+
+                            li(class="menu4")
+                                a(href="/open_content/dong/sub/public.jsp?dong=24") FAQ
+                            
+
+                            li(class="menu5")
+                                a(href="/open_content/dong/sub/notice.jsp?dong=24") 메뉴
+            hr(id="tophr")
+            div(id="contents" class="wrap")
+                #tCon
+                    #mainleft
+                        div(class="contact_c")
+                            div(class="contact")
+                                p(class="ir tit")
+                                p(class="number") 010-5896-2222
+                                p.time 근무시간 : 평일 09:00~18:00
+                                
+                        a(class="portfolio-item" href="#!" id="1")
+                            div(class="caption")
+                                div(class="caption-content")
+                                    div(class="h1") 행정센터 
+                                    p(class="mb-0") 바로가기 ▶
+                            img(class="img-fluid" src="/img/main4.jpg" alt="...")
+                    #mainright
+                        div(class="slider")
+                            div
+                                img(src="/img/mainimg1.jpg", id="slider_image")
+                            div
+                                img(src="/img/mainimg2.jpg", id="slider_image")
+                            div
+                                img(src="/img/mainimg3.jpg", id="slider_image")
+                
+                div(id="#mCon")
+                    .m_board_area
+                        .m_board01
+                            .tit_area 
+                                h5.tit 민원/처리 게시판
+                                p.more
+                                    a(href="#")
+                                        img(src="/img/btn_more.gif", alt="더보기" title="더보기" id="noticeMore") 
+                                img(src="/img/line_m_tit.gif", alt="")
+                                ul
+                                    li 
+                                        a 임시용 넣기 DB아님
+                                    li 
+                                        a 임시용 넣기 DB아님 
+                                    li 
+                                        a 임시용 넣기 DB아님
+                                    li 
+                                        a 임시용 넣기 DB아님 
+                                    li 
+                                        a 임시용 넣기 DB아님 
+                        .m_board02
+                            .tit_area 
+                                h5.tit 요청/업무 게시판
+                                p.more
+                                    a(href="#")
+                                        img(src="/img/btn_more.gif", alt="더보기" title="더보기" id="noticeMore") 
+                                img(src="/img/line_m_tit.gif", alt="")
+                                ul
+                                    li 
+                                        a 임시용 넣기 DB아님
+                                    li 
+                                        a 임시용 넣기 DB아님 
+                                    li 
+                                        a 임시용 넣기 DB아님
+                                    li 
+                                        a 임시용 넣기 DB아님 
+                                    li 
+                                        a 임시용 넣기 DB아님
+                                 
+include ./footer.jade
     script.
 
         $(document).ready(function () {
