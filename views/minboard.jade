@@ -1,0 +1,58 @@
+include ./header.jade
+link(rel='stylesheet' href='../css/board.css')
+div(id="contents" class="wrap")            
+    #side.NG.clearfix 
+            .side_title 
+                span 회원
+            .side_menu 
+                ul 
+                    li 
+                        a(href="#") 공지사항 
+                    hr#sideline
+                    li 
+                        a(href="#") 민원게시판
+                    hr#sideline
+                    li 
+                        a(href="/regi") 요청게시판
+        #tCon
+            #maincontent
+                h3 민원/처리
+                hr#sideline
+            .card-body
+                        div(class="aa")
+                            div(class="row")
+                                div(class="col-md-12")
+                                    //- nav
+                                    //-     div(class="nav nav-tabs nav-fill" id="nav-tab" role="tablist")
+                                    //-         a(class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true") Project Tab 1
+                                    //-         a(class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false") Project Tab 2
+                                    //-         a(class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false") Project Tab 3
+                                    div(class="tab-content" id="nav-tabContent")
+                                        div(class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab")
+                                            table(class="table" cellspacing="0")
+                                                thead
+                                                    tr
+                                                        th NO
+                                                        th 구분
+                                                        th 처리
+                                                        th 제목
+                                                        th 작성자
+                                                        th 날짜
+                                                        th 조회수
+                                                tbody
+                                                    if(result)
+                                                        each re in result
+                                                            tr
+                                                                td=re.mb_no
+                                                                td=re.mb_sub_cate 
+                                                                td
+                                                                    if(re.b_stuts = 0)
+                                                                        a X
+                                                                    else 
+                                                                        a O 
+                                                                td=re.mb_title 
+                                                                td=re.mb_writer 
+                                                                td=re.mb_date 
+                                                                td=re.b_inquiry
+                                                                
+                                        

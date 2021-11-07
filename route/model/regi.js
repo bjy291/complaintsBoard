@@ -1,5 +1,15 @@
 var db=require('../../db');
 
+exports.regi=(req,res)=>{
+
+        if(req.session.displayname){
+                var dname=req.session.displayname;
+                res.render('regi',{name:dname});
+        }else{
+                res.render('regi');
+        }
+}
+
 exports.idcheck=function(req,res){ //아이디중복확인
     var id=req.body.id;
     var sql='select count(*) as result from member where id=?';

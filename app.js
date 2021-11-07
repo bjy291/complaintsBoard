@@ -5,6 +5,18 @@
     var app=express();
     
     var session=require('express-session');
+    var mss=require('express-mysql-session')(session);
+
+    var option={
+        host:'114.71.137.109',
+        port:3306,
+        user:'202147018',
+        password:'bjy969920',
+        database:'SW_201544089',
+        charset:'utf8'
+}
+
+    var sstore=new mss(option);
     
     app.locals.pretty=true;
     app.set('view engine','jade');
@@ -20,14 +32,16 @@
     app.use("/dbimg", express.static(__dirname + '/dbimg'));
     app.use(bodyParser.urlencoded({extended:false}));
     app.use(bodyParser.json());
-    // app.use(session({
-    //         secret:'test',
-    //         resave:false,
-    //         saveUninitialized:true,
-    //         store:sstore
-    // }));
+    app.use(session({
+            secret:'test',
+            resave:false,
+            saveUninitialized:true,
+            store:sstore
+    }));
     app.use('/', require('./route/controller/mainctr'));
-    app.use('/regi', require('./route/controller/regictr'));
+    app.use('/regi/', require('./route/controller/regictr'));
+    app.use('/login/', require('./route/controller/loginctr'));
+    app.use('/root/', require('./route/controller/rootctr'));
 //     app.use(function (req, res, next) {
 //         next(createError(404));
 //     });

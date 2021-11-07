@@ -1,9 +1,13 @@
+.aa{
+    width: 850px;
+    margin-left: -20px;
+}
 .project-tab {
-    padding: 10%;
-    margin-top: -8%;
+    padding: 18px;
 }
 .project-tab #tabs{
     background: #007b5e;
+
     color: #eee;
 }
 .project-tab #tabs h6.section-title{

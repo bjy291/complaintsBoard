@@ -1,0 +1,97 @@
+include ./header.jade
+link(rel='stylesheet' href='../css/board.css')
+link(rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css")
+script(src="https://uicdn.toast.com/grid/latest/tui-grid.js")
+div(id="contents" class="wrap")            
+    #side.NG.clearfix 
+            .side_title 
+                span 관리자
+            .side_menu 
+                ul 
+                    li 
+                        a(href="#") 관리자 
+                    hr#sideline
+                    li 
+                        a(href="#") 민원처리
+                    hr#sideline
+                    li 
+                        a(href="/regi") 요청게시판
+        #tCon
+            #maincontent
+                h3 민원/처리
+                hr#sideline
+            .card-body
+                div(class="aa")
+                    div(id="grid1")
+                    br
+                    div(id="grid2")
+
+include ./footer.jade
+                script.
+                    var gridData1 =new Array();
+                    var gridData2 =new Array();
+                    var grid1;
+                    var grid2;
+                    
+                    $(document).ready(function () {
+            
+                        createGridPrdct1();
+                        createGridPrdct2();
+                    });
+
+                    function createGridPrdct1(){
+                        grid1 = new tui.Grid({
+                            el: document.getElementById('grid1'),
+                            data: gridData1,
+                            scrollX: false,
+                            scrollY: true,
+                            rowHeight : 25,
+                            minRowHeight : 25,
+                            bodyHeight : 390,
+                            header: { height: 25 },
+                            columns: [
+                                { header: 'NO',	name: "item_id",		width: '20',	minWidth: '20',	align: 'center'  },
+                                { header: '처리구분',	name: "item_sname",	width: '50',	minWidth: '50',	align: 'center' },	
+                                { header: '제목',	name: "unit",	width: '150',	minWidth: '150',	align: 'left' },	
+                                { header: '작성자',	name: "kg",	width: '80',	minWidth: '80',	align: 'right' },	
+                                { header: '구분',	name: "quan1",	width: '50',	minWidth: '50',	align: 'center' },	
+                                { header: '구분2',	name: "gram",	width: '50',	minWidth: '50',	align: 'right' },	
+                                { header: '날짜',	name: "cust_name",	width: '100',	minWidth: '100',	align: 'center' },	
+                                { header: '조회수',	name: "prod_date",	width: '20',	minWidth: '20',	align: 'center' ,	editor: {type: 'datePicker', format: 'yyyy-MM-dd'},
+                                    formatter({value}) { // 추가
+                                        var temp_value=value;
+                                        if(temp_value){
+                                            if(temp_value.indexOf("-")==-1){
+                                                var retrun_value=temp_value.substr(0,4)+"-"+temp_value.substr(4,2)+"-"+temp_value.substr(6,2)+temp_value.substr(8,3);
+
+                                                return retrun_value;
+                                            }
+                                            else{
+                                                return temp_value;
+                                            }
+                                        }
+                                        else{
+                                            return temp_value;
+                                        }
+                                    }  }	
+                            ]
+                        });
+                    }
+
+                    function createGridPrdct2(){
+                        grid1 = new tui.Grid({
+                            el: document.getElementById('grid2'),
+                            data: gridData2,
+                            scrollX: false,
+                            scrollY: true,
+                            rowHeight : 25,
+                            minRowHeight : 25,
+                            bodyHeight : 390,
+                            header: { height: 25 },
+                            columns: [
+                                { header: 'NO',	name: "item_id",		width: '20',	minWidth: '20',	align: 'center'  },
+                                { header: '제목',	name: "item_sname",	width: '250',	minWidth: '250',	align: 'center' },	
+                                { header: '내용',	name: "unit",	width: '150',	minWidth: '500',	align: 'left' },	
+                            ]
+                        });
+                    }

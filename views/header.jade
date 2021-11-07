@@ -11,7 +11,7 @@ html
                 link(href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css")
                 script(src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js")
                 //script(src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js")
-                <link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
+                link(rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css")
                 //script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js")
                 script(src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js")
 
@@ -20,7 +20,14 @@ html
 
         body(id="dong24")
             div(id="top")
-                a#login(href="/login") 로그인
+                if(name)
+                    a#login(href="/login/logout") 로그아웃
+                    if(name!="root")
+                        a#login(href="#") 회원정보
+                    if(name=="root")
+                        a(href="/root") 관리자
+                else  
+                    a#login(href="/login") 로그인
                 div(class="wrap")
                     h1 
                         a 민원처리센터
@@ -30,11 +37,11 @@ html
                     div(id="nav")
                         ul
                             li(class="menu1")
-                                a(href="/open_content/dong/sub/greeting.jsp?dong=24") 공지사항
+                                a(href="/minboard") 공지사항
                                 
 
                             li(class="menu2")
-                                a(href="/open_content/dong/sub/register.jsp?dong=24") 민원게시판
+                                a(href="/minboard") 민원게시판
                                
 
                             li(class="menu3")
