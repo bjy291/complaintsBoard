@@ -22,6 +22,9 @@ div(id="contents" class="wrap")
                 hr#sideline
             .card-body
                 div(class="aa")
+                    button(onclick='select()') 조회
+                    br
+                    br
                     div(id="grid1")
                     br
                     div(id="grid2")
@@ -35,11 +38,11 @@ include ./footer.jade
                     
                     $(document).ready(function () {
             
-                        createGridPrdct1();
-                        createGridPrdct2();
+                        createGrid1();
+                        createGrid2();
                     });
 
-                    function createGridPrdct1(){
+                    function createGrid1(){
                         grid1 = new tui.Grid({
                             el: document.getElementById('grid1'),
                             data: gridData1,
@@ -50,36 +53,20 @@ include ./footer.jade
                             bodyHeight : 390,
                             header: { height: 25 },
                             columns: [
-                                { header: 'NO',	name: "item_id",		width: '20',	minWidth: '20',	align: 'center'  },
-                                { header: '처리구분',	name: "item_sname",	width: '50',	minWidth: '50',	align: 'center' },	
-                                { header: '제목',	name: "unit",	width: '150',	minWidth: '150',	align: 'left' },	
-                                { header: '작성자',	name: "kg",	width: '80',	minWidth: '80',	align: 'right' },	
-                                { header: '구분',	name: "quan1",	width: '50',	minWidth: '50',	align: 'center' },	
-                                { header: '구분2',	name: "gram",	width: '50',	minWidth: '50',	align: 'right' },	
-                                { header: '날짜',	name: "cust_name",	width: '100',	minWidth: '100',	align: 'center' },	
-                                { header: '조회수',	name: "prod_date",	width: '20',	minWidth: '20',	align: 'center' ,	editor: {type: 'datePicker', format: 'yyyy-MM-dd'},
-                                    formatter({value}) { // 추가
-                                        var temp_value=value;
-                                        if(temp_value){
-                                            if(temp_value.indexOf("-")==-1){
-                                                var retrun_value=temp_value.substr(0,4)+"-"+temp_value.substr(4,2)+"-"+temp_value.substr(6,2)+temp_value.substr(8,3);
-
-                                                return retrun_value;
-                                            }
-                                            else{
-                                                return temp_value;
-                                            }
-                                        }
-                                        else{
-                                            return temp_value;
-                                        }
-                                    }  }	
+                                { header: 'NO',	name: "mb_no",		width: '20',	minWidth: '20',	align: 'center'  },
+                                { header: '처리구분',	name: "b_status",	width: '50',	minWidth: '50',	align: 'center' },	
+                                { header: '제목',	name: "mb_title",	width: '150',	minWidth: '150',	align: 'left' },	
+                                { header: '작성자',	name: "mb_writer",	width: '80',	minWidth: '80',	align: 'left' },	
+                                { header: '구분',	name: "mb_cate",	width: '50',	minWidth: '50',	align: 'left' },	
+                                { header: '구분2',	name: "mb_sub_cate",	width: '50',	minWidth: '50',	align: 'left' },	
+                                { header: '날짜',	name: "mb_date",	width: '100',	minWidth: '100',	align: 'left' },	
+                                { header: '조회수',	name: "b_inquiry",	width: '20',	minWidth: '20',	align: 'right' }	
                             ]
                         });
                     }
 
-                    function createGridPrdct2(){
-                        grid1 = new tui.Grid({
+                    function createGrid2(){
+                        grid2 = new tui.Grid({
                             el: document.getElementById('grid2'),
                             data: gridData2,
                             scrollX: false,
@@ -89,9 +76,30 @@ include ./footer.jade
                             bodyHeight : 390,
                             header: { height: 25 },
                             columns: [
-                                { header: 'NO',	name: "item_id",		width: '20',	minWidth: '20',	align: 'center'  },
-                                { header: '제목',	name: "item_sname",	width: '250',	minWidth: '250',	align: 'center' },	
-                                { header: '내용',	name: "unit",	width: '150',	minWidth: '500',	align: 'left' },	
+                                { header: 'NO',	name: "mb_no",		width: '20',	minWidth: '20',	align: 'center'  },
+                                { header: '제목',	name: "mb_title",	width: '250',	minWidth: '250',	align: 'center' },	
+                                { header: '내용',	name: "mb_content",	width: '150',	minWidth: '500',	align: 'left' },	
                             ]
                         });
+                    }
+
+                    function select(){
+                        $.ajax({
+                            type : "POST",
+                            url : "/root",
+                            data : {},
+                            dataType : "json",
+                            async : true,
+                            cashe : false,
+                            success : function(data){
+                                gridData1=data.data;
+                                gridData2=data.data;
+                                grid1.clear();
+                                grid1.refreshLayout();
+                                grid1.resetData(gridData1);
+                                grid2.clear();
+                                grid2.refreshLayout();
+                                grid2.resetData(gridData2);
+                            }
+                        })
                     }

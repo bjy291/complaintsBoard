@@ -8,3 +8,14 @@ exports.root=function(req,res){
             res.render('root'); // 관리자만 접근 가능하도록 
     }
 };
+
+exports.rootpost=function(req,res){
+        var sql='select * from minboard';
+        db.query(sql, function(err, result){
+                if(err) console.log(err)
+                else{
+                        
+                        res.send({"data":result})   
+                }
+        })
+}
