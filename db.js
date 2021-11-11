@@ -4,7 +4,8 @@ var db=mysql.createConnection({
         user:'202147018', //아이디
         password:'bjy969920',//비밀번호
         database:'SW_201544089', //스키마이름
-        charset:'utf8' //문자셋
+        charset:'utf8', //문자셋
+        dateStrings : "date"
 })
 // db.connect(); //접속
 module.exports=db;

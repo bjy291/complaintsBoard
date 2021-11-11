@@ -10,7 +10,7 @@ exports.root=function(req,res){
 };
 
 exports.rootpost=function(req,res){
-        var sql='select * from minboard';
+        var sql='select * from min_board';
         db.query(sql, function(err, result){
                 if(err) console.log(err)
                 else{

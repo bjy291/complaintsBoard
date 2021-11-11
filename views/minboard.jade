@@ -53,7 +53,8 @@ div(id="contents" class="wrap")
                                                                         a X
                                                                     else 
                                                                         a O 
-                                                                td=re.mb_title 
+                                                                td
+                                                                    a(href="/minborad_get?num="+re.mb_no)=re.mb_title 
                                                                 td=re.mb_writer 
                                                                 td=re.mb_date 
                                                                 td=re.b_inquiry

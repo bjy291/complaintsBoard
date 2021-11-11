@@ -41,3 +41,29 @@
     color: #333;
     font-weight: 600;
 }
+
+.view{
+    background: #f8f8f8;
+}
+
+.general_board {
+    margin-bottom: 20px;
+}
+
+.general_board tbody th{
+    padding: 13px;
+    border-bottom: 1px solid #cbcbcb;
+    text-align: center;
+    font-weight: 600;
+    font-size: 18px;
+}
+.general_board tbody td {
+    padding: 13px;
+    border-bottom: 1px solid #cbcbcb;
+    text-align: left;
+}
+.general_board .view_contents{
+    padding: 50px 30px;
+    background: #fff;
+    line-height: 30px;
+}

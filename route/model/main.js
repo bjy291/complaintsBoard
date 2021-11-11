@@ -32,13 +32,13 @@ exports.minboard=(req,res)=>{
         if(val){
                 sql = sql + " where title like '%" + val + "%'";
         }
-        var sql="select count(*) as postcnt from minboard";
+        var sql="select count(*) as postcnt from min_board";
 
         db.query(sql, function(err, result){
                 if(err) console.log(err);
                 else{
                         var postcnt=result[0].postcnt;
-                        var sql='select * from minboard';
+                        var sql='select * from min_board';
                         if(val){
                                 sql = sql + " where title like '%" + val + "%'";
                         }sql = sql + " order by mb_no desc limit ?, ?";
@@ -60,6 +60,30 @@ exports.minboard=(req,res)=>{
                         })
                 }
         })
+}
+
+exports.minboard_get=(req,res)=>{
+        var pno=req.query.num; 
+        var sql="select * from min_board where mb_no = ?";
+
+        db.query(sql,pno, function(err, result){
+                if(err) console.log(err);
+                else{
+                        var sql='select * from com_min_board where mb_no = ?';
+                        db.query(sql, pno ,function(err, comment){
+                                if(err) console.log('게시글 댓글 : '+ err);
+                                else{
+                                        if(req.session.displayname){
+                                                var dname = req.session.displayname;    
+                                                console.log(result[0]);
+                                                res.render('minboard_get', {name:dname, id:req.session.user, mbo: result[0], comment:comment, mb_no:result[0].num});
+                                        }else{
+                                                res.render('minboard_get',{err:err});
+                                        }
+                                }
+                        });
+                }
+        });
 }
 
 
