@@ -29,7 +29,7 @@ div(id="contents" class="wrap")
                             col(style="width:75%")
                         thead 
                             tr 
-                                th(scope="col" colspan="2") 투표투푵
+                                th(scope="col" colspan="2") aa
                         tbody 
                             tr 
                                 th.view(scope="row") 제목
@@ -53,5 +53,27 @@ div(id="contents" class="wrap")
                                         span=mbo.mb_content
                     p.margin_t20
                         a.btn(href="/minboard") 목록 
-                        
+                    .comment_guuk
+                        fieldset
+                            legend(style="font-size:22px") 댓글 입력
+                            .input_comment
+                                input.inp_comment(type="text")
+                                input(type="button" value="댓글입력")
+                            .read_cooment
+                                if(comment)
+                                    each com in comment 
+                                        .rc_item
+                                            .userImg 
+                                                a(href="#" class="tt_face_image") 
+                                                    img(src="/img/img_profile.png", alt="프로필 사진")
+                                            .replText
+                                                .mem_name
+                                                    span.rt_user=com.com_mb_writer
+                                                    .com_date
+                                                        span.txt_date=com.com_mb_date
+                                                p.com_text=com.com_mb_content
+
+
+
+
                             

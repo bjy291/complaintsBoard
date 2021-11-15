@@ -67,3 +67,92 @@
     background: #fff;
     line-height: 30px;
 }
+.comment_guuk * {
+    margin: 0;
+    padding: 0;
+    font-family: "돋움", Dotum, AppleGothic, Sans-serif;
+    font-weight: normal;
+    vertical-align: baseline;
+    box-sizing: initial;
+}
+
+.read_cooment .rc_item {
+    position: relative;
+    background: #fff;
+    padding: 15px 0px 11px 0px;
+    width: 98%;
+    border: 1px solid #cecece;
+    margin-top: 11px;
+    *display: inline-block;
+}
+
+.read_cooment .rc_item .userImg {
+    position: absolute;
+    width: 46px;
+    height: 46px;
+    left: 10px;
+    top: 10px;
+    text-align: center;
+    border: 1px solid #e8e8e8;
+}
+.read_cooment .rc_item .userImg a {
+    /* color: #525252; */
+    color: #4B68C5;
+    text-decoration: none;
+    cursor: pointer;
+    line-height: normal;
+}
+.read_cooment .rc_item .userImg img {
+    width: 40px;
+    height: 40px;
+    margin: 3px 0 3px 0;
+}
+.read_cooment .rc_item .replText {
+    margin: 0 28px 0 70px;
+    width: auto;
+}
+.read_cooment .rc_item .replText .mem_name {
+    position: relative;
+    vertical-align: top;
+    min-height: 17px;
+}
+.read_cooment .rc_item .replText .mem_name .rt_user {
+    padding: 0;
+    color: #404040;
+    font-size: 12px;
+    font-weight: bold;
+    float: left;
+}
+.read_cooment .rc_item .replText .mem_name .com_date {
+    position: relative;
+    width: auto;
+    height: 15px;
+    padding-left: 7px;
+    margin: 0 0 0 8px;
+    color: #a3a3a3;
+    font-size: 11px;
+    vertical-align: middle;
+    float: left;
+    /* background: url(https://v2.ttalk.co.kr/img/default/bar_date.gif) no-repeat left top; */
+}
+.read_cooment .rc_item .replText .mem_name .com_date .txt_date {
+    width: auto;
+    overflow: hidden;
+    float: left;
+    margin-right: 7px;
+}
+.read_cooment .rc_item .replText .com_text {
+    margin: 3px 0 10px 0;
+    color: #525252;
+    font-size: 12px;
+    display: block;
+    clear: both;
+    overflow: hidden;
+    white-space: -moz-pre-wrap;
+    word-wrap: break-word;
+    line-height: 18px;
+    word-break: break-all;
+}
+.input_comment .inp_comment{
+    width: 70%;
+}

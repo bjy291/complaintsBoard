@@ -65,11 +65,11 @@ exports.minboard=(req,res)=>{
 exports.minboard_get=(req,res)=>{
         var pno=req.query.num; 
         var sql="select * from min_board where mb_no = ?";
-
+        console.log(pno)
         db.query(sql,pno, function(err, result){
                 if(err) console.log(err);
                 else{
-                        var sql='select * from com_min_board where mb_no = ?';
+                        var sql='SELECT A.id AS writer_id, A.mb_writer AS writer_name, B.* FROM min_board A, com_min_board B WHERE A.mb_no = B.mb_no AND B.mb_no = ?';
                         db.query(sql, pno ,function(err, comment){
                                 if(err) console.log('게시글 댓글 : '+ err);
                                 else{
