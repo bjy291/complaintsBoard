@@ -41,6 +41,17 @@
     color: #333;
     font-weight: 600;
 }
+.topview .top_date{
+    float: right;
+}
+.topview .top_inquiry{
+    float: right;
+    margin-left: 10px;
+}
+
+.topview .top_inquiry2{
+    margin-left: 5px;
+}
 
 .view{
     background: #f8f8f8;

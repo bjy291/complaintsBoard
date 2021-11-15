@@ -29,7 +29,10 @@ div(id="contents" class="wrap")
                             col(style="width:75%")
                         thead 
                             tr 
-                                th(scope="col" colspan="2") aa
+                                th.topview(scope="col" colspan="2")
+                                    span.top_inquiry 조회수
+                                        span.top_inquiry2=mbo.b_inquiry
+                                    span.top_date=mbo.mb_date
                         tbody 
                             tr 
                                 th.view(scope="row") 제목
