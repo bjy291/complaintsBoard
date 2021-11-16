@@ -64,6 +64,9 @@ exports.minboard=(req,res)=>{
 
 exports.minboard_get=(req,res)=>{
         var pno=req.query.num; 
+
+        var updatesql = 'update min_board set b_inquiry = b_inquiry + 1 where mb_no = ?'
+        db.query(updatesql, pno);
         var sql="select * from min_board where mb_no = ?";
         console.log(pno)
         db.query(sql,pno, function(err, result){
@@ -86,5 +89,13 @@ exports.minboard_get=(req,res)=>{
         });
 }
 
+exports.minboard_write=(req, res) =>{
+        if(req.session.displayname){
+                var dname=req.session.displayname;
+                res.render('minboard_write',{name:dname,id:req.session.user});
+        }else{
+                res.render('minboard_write');
+        }
+}
 
 

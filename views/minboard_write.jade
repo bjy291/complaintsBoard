@@ -1,0 +1,56 @@
+include ./header.jade
+link(rel='stylesheet' href='../css/board.css')
+div(id="contents" class="wrap")            
+    #side.NG.clearfix 
+            .side_title 
+                span 게시판
+            .side_menu 
+                ul 
+                    li 
+                        a(href="#") 공지사항 
+                    hr#sideline
+                    li 
+                        a(href="#") 민원게시판
+                    hr#sideline
+                    li 
+                        a(href="/regi") 요청게시판
+                    hr#sideline
+                    li 
+                        a(href="/regi") FAQ
+        #tCon
+            #maincontent
+                h3 민원/처리
+                hr#sideline
+            .card-body
+                .aa 
+                    table.general_board(class="table" cellspacing="0")
+                        colgroup 
+                            col(style="width:25%")
+                            col(style="width:75%")
+                        thead 
+                            tr 
+                                th.topview(scope="col" colspan="2")
+                                    span.top_inquiry 조회수
+                                        span.top_inquiry2=mbo.b_inquiry
+                                    span.top_date=mbo.mb_date
+                        tbody 
+                            tr 
+                                th.view(scope="row") 제목
+                                td.left=mbo.mb_title
+                            tr 
+                                th.view(scope="row") 작성자
+                                td.left=mbo.mb_writer
+                            tr 
+                                th.view(scope="row") 구분
+                                td.left=mbo.mb_sub_cate
+                            tr 
+                                th.view(scope="row") 처리구분
+                                -var status = mbo.b_status
+                                if(status=='1')
+                                    td.left 처리완료
+                                if(status=='0')
+                                    td.left 미처리건
+                            tr 
+                                td.view_contents(colspan="2")
+                                    div 
+                                        span=mbo.mb_content

@@ -58,5 +58,69 @@ div(id="contents" class="wrap")
                                                                 td=re.mb_writer 
                                                                 td=re.mb_date 
                                                                 td=re.b_inquiry
-                                                                
+                                    
+                                    input#writebtn(type="button" value="작성")
+                                    input#displayname(type="text" name="displayname" value=name style="display:none")    
+                                    
+                                    .pagediv
+                                        -var pover=Math.trunc(pager.pagecnt/10)
+                                        if(pover)
+                                            if(pno<11)
+                                                -var n=1
+                                                -var max=10
+                                                -var next=11
+                                                -var check=1
+                                            else  
+                                                -var n=pno%10==0 ? (Math.trunc(pno/10)-1)*10+1 : Math.trunc(pno/10)*10+1
+                                                -var ip=Math.trunc(n/10)
+                                                -var fp=Math.trunc(pager.pagecnt/10)
+                                                -var pna=pager.pagecnt-n
+                                                -var next=(ip+1)*10+1
+                                                -var prev=ip*10
+                                                if(ip == fp)
+                                                    -var max=n+pna
+                                                else 
+                                                    -var max=n+9
+                                        else 
+                                            -var n = 1
+                                            - var max=pager.pagecnt 
+                                        span 
+                                            ul 
+                                                if(query.val)
+                                                    -var loc="&val="+query.val;
+                                                else 
+                                                    -var loc="&val=";
+                                                if(pno>10)
+                                                    li
+                                                        a#first(href="/minboard?page=1" style="height: 14px;") 앞앞
+                                                if(prev)
+                                                        li
+                                                            a#prev(href="/minboard?page="+prev+loc style="padding: 6px 4px 4px 4px;height: 12px;") 앞
+                                                while n <= max 
+                                                    li 
+                                                        if(pno==n)
+                                                            a(href="/minboard?page="+n+loc style="color: red;border: 1px solid gray;")=n++
+                                                        else 
+                                                            a(href="/minboard?page="+n+loc)=n++
+                                                if(ip != fp || check)
+                                                    li 
+                                                        a#next(href="/minboard?page="+next+loc style="padding: 6px 4px 4px 4px;height: 12px;") 뒤
+                                                    li 
+                                                        a#final(href="/minboard?page="+pager.pagecnt+loc style="height: 14px;") 뒤뒤
+include ./footer.jade 
+       script.
+
+            $("#writebtn").click(function(){
+                var name=$("#displayname").val();
+                if(name == "" || name == null){
+                    alert("로그인 후 이용해주세요.")
+                }else{
+                    href="/minboard_write"
+                    location.href =href;
+                }
+            })
+        
+                            
+
+
                                         

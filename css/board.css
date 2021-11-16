@@ -167,3 +167,8 @@
 .input_comment .inp_comment{
     width: 70%;
 }
+
+#writebtn{
+    float: right;
+    margin-right: 10px;
+}
