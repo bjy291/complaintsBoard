@@ -1,5 +1,7 @@
 include ./header.jade
 link(rel='stylesheet' href='../css/board.css')
+script(src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js")
+link(rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css")
 div(id="contents" class="wrap")            
     #side.NG.clearfix 
             .side_title 
@@ -52,16 +54,22 @@ div(id="contents" class="wrap")
                                     td.left 미처리건
                             tr 
                                 td.view_contents(colspan="2")
-                                    div 
-                                        span=mbo.mb_content
+                                    div#viewer=mbo.mb_content
+                                    input#contents(type="text" value=mbo.mb_content style="display:none;")
+                            tr 
+                                th.view(scope="row") 관리자답변
+                                td.left
+                                        
                     p.margin_t20
                         a.btn(href="/minboard") 목록 
                     .comment_guuk
                         fieldset
                             legend(style="font-size:22px") 댓글 입력
                             .input_comment
-                                input.inp_comment(type="text")
-                                input(type="button" value="댓글입력")
+                                input.inp_comment#comment_content(type="text")
+                                input#comment_writer(type="text" value=name style="display:none;")
+                                input#comment_mb_no(type="text" value=mbo.mb_no style="display:none;")
+                                input#comment(type="button" value="댓글입력")
                             .read_cooment
                                 if(comment)
                                     each com in comment 
@@ -75,6 +83,43 @@ div(id="contents" class="wrap")
                                                     .com_date
                                                         span.txt_date=com.com_mb_date
                                                 p.com_text=com.com_mb_content
+include ./footer.jade
+    script.
+        $(document).ready(function () {
+            var content = $("#viewer").html()
+            const viewer = toastui.Editor.factory({
+                el: document.querySelector('#viewer'),
+                viewer: true,
+                height: '500px',
+                initialValue: content
+            });
+
+        
+    
+        });
+        $("#comment").click(function(){
+                    var comment_content = $("#comment_content").val();
+                    var comment_writer = $("#comment_writer").val();
+                    var comment_mb_no = $("#comment_mb_no").val()
+                    $.ajax({
+                            type : "POST",
+                            url : "/minboard_commentpost",
+                            data : {comment_content: comment_content, comment_writer:comment_writer, comment_mb_no:comment_mb_no},
+                            dataType : "json",
+                            async : true,
+                            cashe : false,
+                            success : function(data){
+                                alert("작성 완료.");
+                                location.reload();
+                            },
+                            error:function(err){
+                                alert('작성 실패.')
+                            } 
+                    })
+              
+            })
+     
+        
 
 
 

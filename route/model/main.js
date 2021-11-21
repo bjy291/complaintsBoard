@@ -98,4 +98,48 @@ exports.minboard_write=(req, res) =>{
         }
 }
 
+exports.minboard_writepost=(req, res) =>{
+        var minboard={
+                title:req.body.title,
+                writer:req.body.writer,
+                select:req.body.select,
+                contents:req.body.contents,
+                id:req.body.id
+        }
+        //console.log(minboard.id)
+        var sql = 'insert into min_board(id, mb_writer, mb_title, mb_content, mb_cate, mb_sub_cate, b_inquiry, b_status) values(?, ?, ?, ?, "민원", ? ,0 ,0)'
+        db.query(sql, [minboard.id, minboard.writer, minboard.title, minboard.contents, minboard.select], function(err, result){
+                if(err) console.log(err)
+                else{
+                        var ok=result.affectedRows;
+                        if(ok==1){
+                                res.send(true);
+                        }else{
+                                res.send(false);
+                        }
+                }
+        })
+}       
+
+exports.minboard_commentpost=(req, res) =>{
+        var comment={
+                comment_mb_no:req.body.comment_mb_no,
+                comment_content:req.body.comment_content,
+                comment_writer:req.body.comment_writer
+        }
+        console.log("a : " + comment.comment_mb_no)
+        var sql = 'insert into com_min_board(mb_no, com_mb_writer, com_mb_content) values(?, ?, ?)'
+        db.query(sql, [comment.comment_mb_no, comment.comment_writer, comment.comment_content], function(err, result){
+                if(err) console.log(err)
+                else{
+                        var ok=result.affectedRows;
+                        if(ok==1){
+                                res.send(true);
+                        }else{
+                                res.send(false);
+                        }
+                }
+        })
+}       
+
 

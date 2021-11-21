@@ -1,5 +1,7 @@
 include ./header.jade
 link(rel='stylesheet' href='../css/board.css')
+script(src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js")
+link(rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css")
 div(id="contents" class="wrap")            
     #side.NG.clearfix 
             .side_title 
@@ -31,26 +33,83 @@ div(id="contents" class="wrap")
                             tr 
                                 th.topview(scope="col" colspan="2")
                                     span.top_inquiry 조회수
-                                        span.top_inquiry2=mbo.b_inquiry
-                                    span.top_date=mbo.mb_date
+                                        span.top_inquiry2
+                                    span.top_date
                         tbody 
-                            tr 
-                                th.view(scope="row") 제목
-                                td.left=mbo.mb_title
-                            tr 
-                                th.view(scope="row") 작성자
-                                td.left=mbo.mb_writer
-                            tr 
-                                th.view(scope="row") 구분
-                                td.left=mbo.mb_sub_cate
-                            tr 
-                                th.view(scope="row") 처리구분
-                                -var status = mbo.b_status
-                                if(status=='1')
-                                    td.left 처리완료
-                                if(status=='0')
-                                    td.left 미처리건
-                            tr 
-                                td.view_contents(colspan="2")
-                                    div 
-                                        span=mbo.mb_content
+                                //form#frm(action="/minboard_writepost" method="post")
+                                tr 
+                                    th.view(scope="row") 제목
+                                    td.left
+                                        input#title(type="text" name='title')
+                                tr 
+                                    th.view(scope="row") 작성자
+                                    td.left
+                                        a#writer_show(name='writer')=name
+                                        input#writer(type="text" name="writer" style="display:none" value=name)
+                                        input#mem_id(type="text" name="mem_id" style="display:none" value=id)
+                                tr 
+                                    th.view(scope="row") 구분
+                                    td.left: select#select.justselect(name='select')
+                                        option(value='소음') 소음
+                                        option(value='배수') 배수
+                                        option(value='불법') 불법
+                                        option(value='상인') 상인
+                                        
+                                        option(value='기타') 기타
+                                
+                                tr 
+                                    td.view_contents(colspan="2")
+                                        //textarea#editor(name="content", cols="30", rows="10") 
+                                        div#editor
+                                        div#contents
+                    input#upload(type="button" value='작성')
+                    //a#upload(href="#") ㅂㅂ 
+                    input#back(type="button" value='취소')
+include ./footer.jade
+    script.
+        const Editor = toastui.Editor;
+        $(document).ready(function () {
+            
+            	
+ 
+                const editor = new Editor({
+                    el: document.querySelector('#editor'),
+                    height: '600px',
+                    initialEditType: 'wysiwyg',
+                    previewStyle: 'tab'
+                });
+
+                $("#upload").click(function(){
+                
+                    var contents = editor.getMarkdown();
+                    var title = $("#title").val();
+                    var writer = $("#writer").val();
+                    var select = $("#select").val();
+                    var id = $("#mem_id").val();
+
+                    $.ajax({
+                            type : "POST",
+                            url : "/minboard_writepost",
+                            data : {contents:contents, title:title, writer:writer, select:select, id:id},
+                            dataType : "json",
+                            async : true,
+                            cashe : false,
+                            success : function(data){
+                                alert("작성 완료.");
+                                href="/minboard"
+                                location.href =href;
+                            },
+                            error:function(err){
+                                alert('작성 실패.')
+                            } 
+                    })
+              
+            })
+        });
+
+        $("#back").click(function(){
+               href="/minboard"
+                location.href =href;
+        })
+
+        
