@@ -1,9 +1,5 @@
 include ./header.jade
 link(rel='stylesheet' href='../css/board.css')
-link(rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css")
-script(src="https://uicdn.toast.com/grid/latest/tui-grid.js")
-script(src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js")
-link(rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css")
 
 div(id="contents" class="wrap")            
     #side.NG.clearfix 
@@ -31,10 +27,14 @@ div(id="contents" class="wrap")
                 hr#sideline
             .card-body
                 div(class="aa")
-                    a(style="margin-right: 10px;") 게시판
-                        select(id="mb_cate" name="mb_cate" class="ui_select" style="margin-right: 10px;")
-                            option(value='민원') 민원
-                            option(value='요청') 요청
+                    a(style="margin-right: 10px;") 구분
+                        select(id="mb_sub_cate" name="mb_sub_cate" class="ui_select" style="margin-right: 10px;")
+                            option(value='전체') 전체
+                            option(value='소음') 소음
+                            option(value='배수') 배수
+                            option(value='상인') 상인
+                            option(value='불법') 불법
+                            option(value='기타') 기타
                         input(type="text" id="min_date" name="min_date" size="15" readonly="readonly" style="margin-right: 10px;")
                         span ~
                         input(type="text" id="max_date" name="max_date" size="15" readonly="readonly" style="margin-right: 10px; margin-left: 5px;")
@@ -43,6 +43,14 @@ div(id="contents" class="wrap")
                     br
                     div(id="grid1")
                     br
+                    h5 처리
+                    button(id = "btn_add")
+                        span 추가
+                    button(onclick='save_complaint()' id = "btn_save")
+                        span 저장
+                    button(onclick='delete_complaint()' id = "btn_delete")
+                        span 삭제
+                    div(id="grid2" style="margin-bottom: 10px;")
                     table.general_board(class="table" cellspacing="0")
                         colgroup 
                             col(style="width:25%;")
@@ -55,14 +63,6 @@ div(id="contents" class="wrap")
                                 td.view_contents(colspan="2")
                                     div#viewer
                                     input#contents(type="text" style="display:none;" value="")
-                    h4 답변달기
-                    button(id = "btn_add")
-                        span 추가
-                    button(onclick='save_complaint()' id = "btn_save")
-                        span 저장
-                    button( id = "btn_delete")
-                        span 삭제
-                    div(id="grid2")
 
 include ./footer.jade
                 script.
@@ -83,8 +83,6 @@ include ./footer.jade
                             var idx=grid1.getIndexOfRow(rowKey);
                             var columnName = e.columnName;
 
-                            var mb_cate = $("#mb_cate").val();
-
                             var sendType = "POST";
                             var sendUrl = "/root/min_boardClick";
                             
@@ -93,7 +91,7 @@ include ./footer.jade
                                 $.ajax({
                                     type : sendType,
                                     url : sendUrl,
-                                    data : {"mb_no"  : mb_no, "mb_cate" : mb_cate},
+                                    data : {"mb_no"  : mb_no},
                                     dataType : "json",
                                     async : true,
                                     cashe : false,
@@ -108,6 +106,11 @@ include ./footer.jade
                                             height: '500px',
                                             initialValue: content
                                         });
+
+                                        gridData2=data.data2;
+                                        grid2.clear();
+                                        grid2.refreshLayout();
+                                        grid2.resetData(gridData2);
                                     }
                                 })
                             }
@@ -149,16 +152,19 @@ include ./footer.jade
                             rowHeight : 25,
                             minRowHeight : 25,
                             bodyHeight : 250,
-                            header: { height: 25 },
+                            header: { height: 60,
+                            complexColumns:[
+                                {header: '처리구분', name:'gubun', childNames:['mb_cate','mb_sub_cate']}
+                            ]},
                             columns: [
                                 { header: 'NO',	name: "mb_no",		width: '20',	minWidth: '20',	align: 'center'  },
-                                { header: '처리구분',	name: "b_status",	width: '50',	minWidth: '50',	align: 'center' },	
+                                { header: '처리구분',	name: "b_status",	width: '50',	minWidth: '50',	align: 'center', sortingType: 'asc', sortable: true, filter: 'select' },	
                                 { header: '제목',	name: "mb_title",	width: '150',	minWidth: '150',	align: 'left' },	
                                 { header: '작성자',	name: "mb_writer",	width: '80',	minWidth: '80',	align: 'left' },	
-                                { header: '구분',	name: "mb_cate",	width: '50',	minWidth: '50',	align: 'left' },	
-                                { header: '구분2',	name: "mb_sub_cate",	width: '50',	minWidth: '50',	align: 'left' },	
+                                { header: '게시판',	name: "mb_cate",	width: '50',	minWidth: '50',	align: 'left' },	
+                                { header: '구분',	name: "mb_sub_cate",	width: '50',	minWidth: '50',	align: 'left', filter: 'select' },	
                                 { header: '날짜',	name: "mb_date",	width: '100',	minWidth: '100',	align: 'left' },	
-                                { header: '조회수',	name: "b_inquiry",	width: '20',	minWidth: '20',	align: 'right' }	
+                                { header: '조회수',	name: "b_inquiry",	width: '20',	minWidth: '20',	align: 'right', hidden:true}	
                             ]
                         });
                     }
@@ -171,12 +177,11 @@ include ./footer.jade
                             scrollY: true,
                             rowHeight : 25,
                             minRowHeight : 25,
-                            bodyHeight : 250,
+                            bodyHeight : 150,
                             header: { height: 25 },
                             columns: [
                                 { header: '답변 제목',	name: "complaints_title",	width: '80',	minWidth: '80',	align: 'center', editor: 'text' },	
-                                { header: '답변 내용',	name: "complaints_content",	width: '250',	minWidth: '250',	align: 'left', editor: 'text' },
-                                { header: '처리 예상일',	name: "complaints_complete",	width: '80',	minWidth: '80',	align: 'left' ,	editor: {type: 'datePicker', format: 'yyyy-MM-dd'},
+                                { header: '처리 예상일',	name: "complaints_complete",	width: '80',	minWidth: '80',	align: 'center' ,	editor: {type: 'datePicker', format: 'yyyy-MM-dd'},
                                     formatter({value}) { // 추가
                                         var temp_value=value;
                                         if(temp_value){
@@ -192,20 +197,26 @@ include ./footer.jade
                                         else{
                                             return temp_value;
                                         }
-                                    }  }		
+                                    } 
+                                },
+                                { header: '답변 내용',	name: "complaints_content",	width: '250',	minWidth: '250',	align: 'left', editor: 'text' }, 
+                                { header: '등록일',	name: "date",	width: '50',	minWidth: '50',	align: 'center'},
+                                { header: '답변 내용',	name: "min_Cno",	hidden: true},
+                                { header: '답변 내용',	name: "mb_no",	hidden: true},		
                             ]
+                                
                         });
                     }
 
                     function select(){
-                        var mb_cate = $("#mb_cate").val();
+                        var mb_sub_cate = $("#mb_sub_cate").val();
                         var min_date = $("#min_date").val();
                         var max_date = $("#max_date").val();
 
                         $.ajax({
                             type : "POST",
                             url : "/root",
-                            data : {mb_cate : mb_cate, min_date: min_date, max_date:max_date},
+                            data : {mb_sub_cate : mb_sub_cate, min_date: min_date, max_date:max_date},
                             dataType : "json",
                             async : true,
                             cashe : false,
@@ -217,6 +228,7 @@ include ./footer.jade
                                 grid1.clear();
                                 grid1.refreshLayout();
                                 grid1.resetData(gridData1);
+
                                 }
                                 else{
                                     alert('조회된 데이터가 없습니다.')
@@ -231,6 +243,10 @@ include ./footer.jade
                     function save_complaint(){
                         grid2.finishEditing(grid2.getFocusedCell());
 
+                        var mb_sub_cate = $("#mb_sub_cate").val();
+                        var min_date = $("#min_date").val();
+                        var max_date = $("#max_date").val();
+
                         var temp=grid2.getModifiedRows();
 
                         var c_rownum=temp.createdRows.length;
@@ -244,20 +260,55 @@ include ./footer.jade
                         
                         var createdRows = temp.createdRows
                         //var jsonData = JSON.stringify(createdRows);
-                        alert(typeof(createdRows))
                         $.ajax({
                             type : sendType,
                             url : sendUrl,
-                            data : { "updatedRows":temp.updatedRows, "createdRows": createdRows, "mb_no": mb_no, "c_rownum": c_rownum, "u_rownum": u_rownum},
+                            data : { "updatedRows":temp.updatedRows, "createdRows": createdRows, "mb_no": mb_no, "c_rownum": c_rownum, "u_rownum": u_rownum, mb_sub_cate : mb_sub_cate, min_date: min_date, max_date:max_date},
                             dataType : "JSON",
                             async : true,
                             cashe : false,
                             success : function(data, jqXHR){
-                                gridData2=data.rows;
+                                gridData1=data.data;
+                                grid1.clear();
+                                grid1.refreshLayout();
+                                grid1.resetData(gridData1);
+
+                                gridData2=data.data2;
                                 grid2.clear();
                                 grid2.refreshLayout();
                                 grid2.resetData(gridData2);
                                 alert("저장되었습니다");
+                            },
+                            error : function(jqXHR) {
+                                    alert("처리중 오류");
+                            }
+                        })
+                    }
+
+                    function delete_complaint(){
+                        
+                        var mb_no = grid2.getFocusedCell().rowKey;
+                        mb_no = grid2.getValue(mb_no,"mb_no");
+
+                        var min_Cno = grid2.getFocusedCell().rowKey;
+                        min_Cno = grid2.getValue(min_Cno,"min_Cno");
+
+                        var sendType = "POST";
+                        var sendUrl = "/root/delete_minComplaints";
+
+                        $.ajax({
+                            type : sendType,
+                            url : sendUrl,
+                            data : {"mb_no":mb_no, "min_Cno":min_Cno},
+                            dataType : "JSON",
+                            async : true,
+                            cashe : false,
+                            success : function(data, jqXHR){
+                                gridData2=data.data;
+                                grid2.clear();
+                                grid2.refreshLayout();
+                                grid2.resetData(gridData2);
+                                alert("삭제되었습니다.");
                             },
                             error : function(jqXHR) {
                                     alert("처리중 오류");

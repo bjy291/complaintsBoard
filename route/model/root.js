@@ -11,37 +11,56 @@ exports.root=function(req,res){
 };
 
 exports.rootpost=function(req,res){
-        var mb_cate = req.body.mb_cate
+        var mb_sub_cate = req.body.mb_sub_cate
         var min_date = req.body.min_date
         var max_date = req.body.max_date
 
-        var sql='select mb_no, mb_writer, mb_title, mb_content, mb_date, mb_cate, mb_sub_cate, b_inquiry, if(b_status = 0, "미처리",if(b_status = 1, "처리완료","에러")) as b_status from min_board where mb_cate = ?';
-        sql += ' and mb_date between ? and ? order by mb_no desc'
-        db.query(sql, [mb_cate, min_date, max_date], function(err, result){
-                if(err) console.log(err)
-                else{
-                        res.send({"data":result, "records" : result.length})   
-                }
-        })
+        var sql='select mb_no, mb_writer, mb_title, mb_content, mb_date, mb_cate, mb_sub_cate, b_inquiry, if(b_status = 0, "미처리",if(b_status = 1, "처리완료","에러")) as b_status from min_board where mb_cate = "민원"';
+        if(mb_sub_cate == '전체'){
+                sql += ' and mb_date between ? and ? order by mb_no desc'
+                db.query(sql, [min_date, max_date], function(err, result){
+                        if(err) console.log(err)
+                        else{
+                                res.send({"data":result, "records" : result.length})   
+                        }
+                })
+        }else{
+                console.log(mb_sub_cate)
+                sql += ' and mb_sub_cate = ? and mb_date between ? and ? order by mb_no desc'
+                db.query(sql, [mb_sub_cate, min_date, max_date], function(err, result){
+                        if(err) console.log(err)
+                        else{
+                                res.send({"data":result, "records" : result.length})   
+                        }
+                })
+        }
 }
 
 exports.min_boardClick=function(req,res){ 
         var minboardC={
                 mb_no:req.body.mb_no,
-                mb_cate:req.body.mb_cate
         }
-        console.log(minboardC.mb_cate + minboardC.mb_no)
-        sql = 'select mb_title, mb_content from min_board where mb_cate = ? and mb_no = ?'
-        db.query(sql, [minboardC.mb_cate, minboardC.mb_no], function(err, result){
+        sql = 'select mb_title, mb_content from min_board where mb_cate = "민원" and mb_no = ?'
+
+        db.query(sql, [minboardC.mb_no], function(err, result){
                 if(err) console.log(err)
                 else{
-                        res.send({"data":result[0]})   
+                        sql='select min_Cno, mb_no, title as complaints_title, contents as complaints_content, ex_date as complaints_complete, date from min_Complaint where mb_no = ?'
+                        db.query(sql, [minboardC.mb_no], function(err, result2){
+                               if(err) console.log(err);
+                               else{
+                                       res.send({"data":result[0], "data2":result2});  
+                               }
+                        })
                 }
         })
     };
 
 exports.insert_minComplaints=function(req,res){ 
-        console.log('insert_minComplaints')
+        var mb_sub_cate = req.body.mb_sub_cate
+        var min_date = req.body.min_date
+        var max_date = req.body.max_date
+
         var c_rownum = req.body.c_rownum;
         var u_rownum = req.body.u_rownum;
 
@@ -53,12 +72,72 @@ exports.insert_minComplaints=function(req,res){
         console.log(createdRows)
 
         if(c_rownum > 0){
-                // for(var i=0; i<c_rownum; i++) {
-                //         Integer.parseInt(i)
-                //         console.log(createdRows[][complaints_title])
-                // }
+                for(var i=0; i<c_rownum; i++) {
+                        //createdRows[i]['complaints_title']
+                        sql = 'insert into min_Complaint(mb_no, title, contents, ex_date) value(? ,? ,?, ?)';
+                        db.query(sql, [mb_no, createdRows[i]['complaints_title'], createdRows[i]['complaints_content'], createdRows[i]['complaints_complete']], function(err, result){
+                                if(err) console.log(err);
+                                else{
+                                        var update_status = 'update min_board set b_status = 1 where mb_no = ?'
+                                        db.query(update_status, [mb_no]);
+
+                                        var sql='select mb_no, mb_writer, mb_title, mb_content, mb_date, mb_cate, mb_sub_cate, b_inquiry, if(b_status = 0, "미처리",if(b_status = 1, "처리완료","에러")) as b_status from min_board where mb_cate = "민원"';
+                                        if(mb_sub_cate == '전체'){
+                                                sql += ' and mb_date between ? and ? order by mb_no desc'
+                                                db.query(sql, [min_date, max_date], function(err, result){
+                                                        if(err) console.log(err)
+                                                        else{
+                                                                //res.send({"data":result, "records" : result.length})
+                                                                var sql2 = 'select min_Cno, mb_no, title as complaints_title, contents as complaints_content, ex_date as complaints_complete, date from min_Complaint where mb_no = ?'
+                                                                db.query(sql2, [mb_no], function(err, result2){
+                                                                        if(err) console.log(err);
+                                                                        else{
+                                                                                res.send({"data":result, "records" : result.length, "data2":result2, "records2": result2.length})
+                                                                        }
+                                                                })   
+                                                        }
+                                                })
+                                        }else{
+                                                sql += ' and mb_sub_cate = ? and mb_date between ? and ? order by mb_no desc'
+                                                db.query(sql, [mb_sub_cate, min_date, max_date], function(err, result){
+                                                        if(err) console.log(err)
+                                                        else{
+                                                                var sql2 = 'select min_Cno, mb_no, title as complaints_title, contents as complaints_content, ex_date as complaints_complete, date from min_Complaint where mb_no = ?'
+                                                                db.query(sql2, [mb_no], function(err, result2){
+                                                                        if(err) console.log(err);
+                                                                        else{
+                                                                                res.send({"data":result, "records" : result.length, "data2":result2, "records2": result2.length})
+                                                                        }
+                                                                })
+                                                        }
+                                                })
+                                        }
+                                }
+                        })
+                }
         }
 };    
+
+exports.delete_minComplaints=function(req, res){
+        var Cdelete= {
+                mb_no : req.body.mb_no,
+                min_Cno: req.body.min_Cno
+        }
+
+        sql='delete from min_Complaint where mb_no = ? and min_Cno = ?'
+        db.query(sql,[Cdelete.mb_no, Cdelete.min_Cno], function(err, result){
+                if(err) console.log(err)
+                else{
+                        selectsql='select min_Cno, mb_no, title as complaints_title, contents as complaints_content, ex_date as complaints_complete, date from min_Complaint where mb_no = ?'
+                        db.query(selectsql, [Cdelete.mb_no], function(err, result2){
+                                if(err) console.log(err);
+                                else{
+                                        res.send({"data":result2, "records": result2.length})
+                                }
+                        })
+                }
+        })
+}
 
 exports.chart1=function(req,res){ 
         var date = new Date();

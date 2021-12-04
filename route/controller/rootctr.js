@@ -6,6 +6,7 @@ router.post('/', root.rootpost);
 
 router.post('/min_boardClick', root.min_boardClick);
 router.post('/insert_minComplaints', root.insert_minComplaints);
+router.post('/delete_minComplaints', root.delete_minComplaints);
 
 router.get('/chart1', root.chart1)
 module.exports = router
