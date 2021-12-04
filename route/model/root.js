@@ -1,3 +1,4 @@
+const { request } = require('express');
 var db=require('../../db');
 
 exports.root=function(req,res){ 
@@ -10,15 +11,54 @@ exports.root=function(req,res){
 };
 
 exports.rootpost=function(req,res){
-        var sql='select * from min_board';
-        db.query(sql, function(err, result){
+        var mb_cate = req.body.mb_cate
+        var min_date = req.body.min_date
+        var max_date = req.body.max_date
+
+        var sql='select mb_no, mb_writer, mb_title, mb_content, mb_date, mb_cate, mb_sub_cate, b_inquiry, if(b_status = 0, "미처리",if(b_status = 1, "처리완료","에러")) as b_status from min_board where mb_cate = ?';
+        sql += ' and mb_date between ? and ? order by mb_no desc'
+        db.query(sql, [mb_cate, min_date, max_date], function(err, result){
                 if(err) console.log(err)
                 else{
-                        
-                        res.send({"data":result})   
+                        res.send({"data":result, "records" : result.length})   
                 }
         })
 }
+
+exports.min_boardClick=function(req,res){ 
+        var minboardC={
+                mb_no:req.body.mb_no,
+                mb_cate:req.body.mb_cate
+        }
+        console.log(minboardC.mb_cate + minboardC.mb_no)
+        sql = 'select mb_title, mb_content from min_board where mb_cate = ? and mb_no = ?'
+        db.query(sql, [minboardC.mb_cate, minboardC.mb_no], function(err, result){
+                if(err) console.log(err)
+                else{
+                        res.send({"data":result[0]})   
+                }
+        })
+    };
+
+exports.insert_minComplaints=function(req,res){ 
+        console.log('insert_minComplaints')
+        var c_rownum = req.body.c_rownum;
+        var u_rownum = req.body.u_rownum;
+
+        let createdRows =  req.body.createdRows;
+        var updatedRows = req.body.updatedRows;
+
+        var mb_no = req.body.mb_no;
+
+        console.log(createdRows)
+
+        if(c_rownum > 0){
+                // for(var i=0; i<c_rownum; i++) {
+                //         Integer.parseInt(i)
+                //         console.log(createdRows[][complaints_title])
+                // }
+        }
+};    
 
 exports.chart1=function(req,res){ 
         var date = new Date();

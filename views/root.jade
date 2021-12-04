@@ -2,6 +2,9 @@ include ./header.jade
 link(rel='stylesheet' href='../css/board.css')
 link(rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css")
 script(src="https://uicdn.toast.com/grid/latest/tui-grid.js")
+script(src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js")
+link(rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css")
+
 div(id="contents" class="wrap")            
     #side.NG.clearfix 
             .side_title 
@@ -28,11 +31,37 @@ div(id="contents" class="wrap")
                 hr#sideline
             .card-body
                 div(class="aa")
+                    a(style="margin-right: 10px;") 게시판
+                        select(id="mb_cate" name="mb_cate" class="ui_select" style="margin-right: 10px;")
+                            option(value='민원') 민원
+                            option(value='요청') 요청
+                        input(type="text" id="min_date" name="min_date" size="15" readonly="readonly" style="margin-right: 10px;")
+                        span ~
+                        input(type="text" id="max_date" name="max_date" size="15" readonly="readonly" style="margin-right: 10px; margin-left: 5px;")
                     button(onclick='select()') 조회
                     br
                     br
                     div(id="grid1")
                     br
+                    table.general_board(class="table" cellspacing="0")
+                        colgroup 
+                            col(style="width:25%;")
+                            col(style="width:75%;")
+                        tbody 
+                            tr 
+                                th.view(scope="row") 제목
+                                td.left#mb_title
+                            tr 
+                                td.view_contents(colspan="2")
+                                    div#viewer
+                                    input#contents(type="text" style="display:none;" value="")
+                    h4 답변달기
+                    button(id = "btn_add")
+                        span 추가
+                    button(onclick='save_complaint()' id = "btn_save")
+                        span 저장
+                    button( id = "btn_delete")
+                        span 삭제
                     div(id="grid2")
 
 include ./footer.jade
@@ -43,9 +72,72 @@ include ./footer.jade
                     var grid2;
                     
                     $(document).ready(function () {
-            
+
+                        tui.Grid.applyTheme('striped');
                         createGrid1();
                         createGrid2();
+
+                        grid1.on('click', function(e){
+                            
+                            var rowKey = e.rowKey;
+                            var idx=grid1.getIndexOfRow(rowKey);
+                            var columnName = e.columnName;
+
+                            var mb_cate = $("#mb_cate").val();
+
+                            var sendType = "POST";
+                            var sendUrl = "/root/min_boardClick";
+                            
+                            var mb_no = grid1.getValue(rowKey,"mb_no");
+                            if(mb_no !=""){
+                                $.ajax({
+                                    type : sendType,
+                                    url : sendUrl,
+                                    data : {"mb_no"  : mb_no, "mb_cate" : mb_cate},
+                                    dataType : "json",
+                                    async : true,
+                                    cashe : false,
+                                    success : function(data, status, jqXHR){
+                                        $("#mb_title").text(data.data.mb_title)
+                                        $("#viewer").html(data.data.mb_content)
+
+                                        var content = $("#viewer").html()
+                                        const viewer = toastui.Editor.factory({
+                                            el: document.querySelector('#viewer'),
+                                            viewer: true,
+                                            height: '500px',
+                                            initialValue: content
+                                        });
+                                    }
+                                })
+                            }
+                        })
+
+                        $('#btn_add').click(function(){
+                            grid2.appendRow([],{"at":0});
+                        });
+                        
+                        
+                        $("#min_date").datepicker({
+                            defaultDate : new Date(),
+                            dateFormat: 'yy-mm-dd',
+                            showOtherMonths: true,
+                            showOn : "focus", 
+                            showAnim : "show",
+                            duration : 200
+                        });
+                        $("#min_date").datepicker('setDate', '-7D');
+
+                        $("#max_date").datepicker({
+                            defaultDate : new Date(),
+                            dateFormat: 'yy-mm-dd',
+                            showOtherMonths: true,
+                            showOn : "focus", 
+                            showAnim : "show",
+                            duration : 200
+                        });
+                        $("#max_date").datepicker('setDate', 'today');
+                        
                     });
 
                     function createGrid1(){
@@ -56,7 +148,7 @@ include ./footer.jade
                             scrollY: true,
                             rowHeight : 25,
                             minRowHeight : 25,
-                            bodyHeight : 390,
+                            bodyHeight : 250,
                             header: { height: 25 },
                             columns: [
                                 { header: 'NO',	name: "mb_no",		width: '20',	minWidth: '20',	align: 'center'  },
@@ -79,33 +171,97 @@ include ./footer.jade
                             scrollY: true,
                             rowHeight : 25,
                             minRowHeight : 25,
-                            bodyHeight : 390,
+                            bodyHeight : 250,
                             header: { height: 25 },
                             columns: [
-                                { header: 'NO',	name: "mb_no",		width: '20',	minWidth: '20',	align: 'center'  },
-                                { header: '제목',	name: "mb_title",	width: '250',	minWidth: '250',	align: 'center' },	
-                                { header: '내용',	name: "mb_content",	width: '150',	minWidth: '500',	align: 'left' },	
+                                { header: '답변 제목',	name: "complaints_title",	width: '80',	minWidth: '80',	align: 'center', editor: 'text' },	
+                                { header: '답변 내용',	name: "complaints_content",	width: '250',	minWidth: '250',	align: 'left', editor: 'text' },
+                                { header: '처리 예상일',	name: "complaints_complete",	width: '80',	minWidth: '80',	align: 'left' ,	editor: {type: 'datePicker', format: 'yyyy-MM-dd'},
+                                    formatter({value}) { // 추가
+                                        var temp_value=value;
+                                        if(temp_value){
+                                            if(temp_value.indexOf("-")==-1){
+                                                var retrun_value=temp_value.substr(0,4)+"-"+temp_value.substr(4,2)+"-"+temp_value.substr(6,2)+temp_value.substr(8,3);
+
+                                                return retrun_value;
+                                            }
+                                            else{
+                                                return temp_value;
+                                            }
+                                        }
+                                        else{
+                                            return temp_value;
+                                        }
+                                    }  }		
                             ]
                         });
                     }
 
                     function select(){
+                        var mb_cate = $("#mb_cate").val();
+                        var min_date = $("#min_date").val();
+                        var max_date = $("#max_date").val();
+
                         $.ajax({
                             type : "POST",
                             url : "/root",
-                            data : {},
+                            data : {mb_cate : mb_cate, min_date: min_date, max_date:max_date},
                             dataType : "json",
                             async : true,
                             cashe : false,
                             success : function(data){
+                                if(data.records > 0){
+                                $("#mb_title").text(data.data.mb_title)
+
                                 gridData1=data.data;
-                                gridData2=data.data;
                                 grid1.clear();
                                 grid1.refreshLayout();
                                 grid1.resetData(gridData1);
-                                grid2.clear();
-                                grid2.refreshLayout();
-                                grid2.resetData(gridData2);
+                                }
+                                else{
+                                    alert('조회된 데이터가 없습니다.')
+                                }
+                            },
+                            error : function(jqXHR) {
+                                alert("처리중 오류");
                             }
                         })
                     }
+
+                    function save_complaint(){
+                        grid2.finishEditing(grid2.getFocusedCell());
+
+                        var temp=grid2.getModifiedRows();
+
+                        var c_rownum=temp.createdRows.length;
+                        var u_rownum=temp.updatedRows.length;
+                        
+                        var mb_no = grid1.getFocusedCell().rowKey;
+                        mb_no = grid1.getValue(mb_no,"mb_no");
+
+                        var sendType = "POST";
+                        var sendUrl = "/root/insert_minComplaints";
+                        
+                        var createdRows = temp.createdRows
+                        //var jsonData = JSON.stringify(createdRows);
+                        alert(typeof(createdRows))
+                        $.ajax({
+                            type : sendType,
+                            url : sendUrl,
+                            data : { "updatedRows":temp.updatedRows, "createdRows": createdRows, "mb_no": mb_no, "c_rownum": c_rownum, "u_rownum": u_rownum},
+                            dataType : "JSON",
+                            async : true,
+                            cashe : false,
+                            success : function(data, jqXHR){
+                                gridData2=data.rows;
+                                grid2.clear();
+                                grid2.refreshLayout();
+                                grid2.resetData(gridData2);
+                                alert("저장되었습니다");
+                            },
+                            error : function(jqXHR) {
+                                    alert("처리중 오류");
+                            }
+                        })
+                    }
+                

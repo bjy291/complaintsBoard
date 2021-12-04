@@ -2,13 +2,19 @@ var db=require('../../db');
 var promise=require('promise');
 
 exports.main=(req,res)=>{
-        console.log("get main");
-        if(req.session.displayname){
-                var dname=req.session.displayname;
-                res.render('main',{name:dname});
-        }else{
-                res.render('main.jade');
-        }
+        var sql="select * from min_board order by mb_no desc";
+        db.query(sql, function(err, result){
+                if(err) console.log(err);
+                else{
+                        
+                        if(req.session.displayname){
+                                var dname=req.session.displayname;
+                                res.render('main',{name:dname,id:req.session.user,result:result});  
+                        }else{
+                                res.render('main',{name:dname,id:req.session.user,result:result});
+                        }   
+                }
+        })
 }
 
 exports.notice=(req,res)=>{

@@ -86,38 +86,27 @@ html
                             .tit_area 
                                 h5.tit 민원/처리 게시판
                                 p.more
-                                    a(href="#")
+                                    a(href="/minboard")
                                         img(src="/img/btn_more.gif", alt="더보기" title="더보기" id="noticeMore") 
                                 img(src="/img/line_m_tit.gif", alt="")
                                 ul
-                                    li 
-                                        a 임시용 넣기 DB아님
-                                    li 
-                                        a 임시용 넣기 DB아님 
-                                    li 
-                                        a 임시용 넣기 DB아님
-                                    li 
-                                        a 임시용 넣기 DB아님 
-                                    li 
-                                        a 임시용 넣기 DB아님 
+                                    if(result)
+                                        each re in result
+                                            li 
+                                                a(href="/minborad_get?num="+re.mb_no)=re.mb_title 
+                                            
                         .m_board02
                             .tit_area 
                                 h5.tit 요청/업무 게시판
                                 p.more
-                                    a(href="#")
+                                    a(href="/minboard")
                                         img(src="/img/btn_more.gif", alt="더보기" title="더보기" id="noticeMore") 
                                 img(src="/img/line_m_tit.gif", alt="")
                                 ul
-                                    li 
-                                        a 임시용 넣기 DB아님
-                                    li 
-                                        a 임시용 넣기 DB아님 
-                                    li 
-                                        a 임시용 넣기 DB아님
-                                    li 
-                                        a 임시용 넣기 DB아님 
-                                    li 
-                                        a 임시용 넣기 DB아님
+                                    if(result)
+                                        each re in result
+                                            li 
+                                                a(href="/minborad_get?num="+re.mb_no)=re.mb_title 
                                  
 include ./footer.jade
     script.
