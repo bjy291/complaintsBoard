@@ -25,21 +25,22 @@ html
                 link(rel="stylesheet" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css")
         body(id="dong24")
             div(id="top")
-                if(name)
-                    a#login(href="/login/logout") 로그아웃
-                    if(name!="root")
-                        a#login(href="#") 회원정보
-                    if(name=="root")
-                        a(href="/root") 관리자
-                else  
-                    a#login(href="/login") 로그인
+                .topsize
+                    if(name)
+                        a#login(href="/login/logout") 로그아웃
+                        if(name!="root")
+                            a#login(href="#") 회원정보
+                        if(name=="root")
+                            a#login(href="/root") 관리자
+                    else  
+                        a#login(href="/login") 로그인
                 div(class="wrap")
                     h1 
                         a 민원처리센터
                             //img(src="/image/logo.gif" alt="새로운 변화 모두가 행복한 동구 행정복지센터") 
                             //img(src="/image/logo2.gif" alt="송현1·2동")
 
-                    div(id="nav")
+                    div.leftmenu(id="nav")
                         ul
                             li(class="menu1")
                                 a(href="/minboard") 공지사항
@@ -50,15 +51,15 @@ html
                                
 
                             li(class="menu3")
-                                a(href="/open_content/dong/sub/center.jsp?dong=24") 요청게시판
+                                a(href="#") 요청게시판
                                 
 
                             li(class="menu4")
-                                a(href="/open_content/dong/sub/public.jsp?dong=24") FAQ
+                                a(href="#") FAQ
                             
 
                             li(class="menu5")
-                                a(href="/open_content/dong/sub/notice.jsp?dong=24") 메뉴
+                                a(href="#") 메뉴
             hr(id="tophr")
             
             

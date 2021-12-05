@@ -57,6 +57,11 @@
     background: #f8f8f8;
 }
 
+.view1{
+    background: #f8f8f8;
+    width: 10px;
+}
+
 .general_board {
     margin-bottom: 20px;
 }
@@ -171,4 +176,34 @@
 #writebtn{
     float: right;
     margin-right: 10px;
+}
+
+.pagediv{
+    margin-left: 300px;
+    position: relative;
+}
+.pagediv ul {  
+    list-style:none;  
+    float:left;  
+    display:inline;  
+}  
+.pagediv ul li {  
+    float:left;  
+}  
+
+.pagediv ul li a {  
+    float:left;  
+    padding:6px;  
+    margin-right:5px;  
+    width:27px;  
+    color:black;  
+    background-color: rgb(189,189,189);
+    font:bold 15px tahoma;  
+    border:1px solid rgb(189,189,189);  
+    text-align:center;  
+    text-decoration:none;  
+}
+
+.pagediv ul li a:hover, .pagediv ul li a:focus {  
+    color:red;    
 }

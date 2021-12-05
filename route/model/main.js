@@ -74,7 +74,7 @@ exports.minboard_get=(req,res)=>{
         var updatesql = 'update min_board set b_inquiry = b_inquiry + 1 where mb_no = ?'
         db.query(updatesql, pno);
         var sql="select * from min_board where mb_no = ?";
-        console.log(pno)
+
         db.query(sql,pno, function(err, result){
                 if(err) console.log(err);
                 else{
@@ -82,13 +82,19 @@ exports.minboard_get=(req,res)=>{
                         db.query(sql, pno ,function(err, comment){
                                 if(err) console.log('게시글 댓글 : '+ err);
                                 else{
-                                        if(req.session.displayname){
-                                                var dname = req.session.displayname;    
-                                                console.log(result[0]);
-                                                res.render('minboard_get', {name:dname, id:req.session.user, mbo: result[0], comment:comment, mb_no:result[0].num});
-                                        }else{
-                                                res.render('minboard_get',{err:err});
-                                        }
+                                        var complaintsql = 'select title, contents, ex_date, DATE_FORMAT(DATE,"%Y-%m-%d") as date from min_Complaint where mb_no = ?'
+                                        db.query(complaintsql, pno, function(err, complaint){
+                                                if(err) console.log(err);
+                                                else{
+                                                        if(req.session.displayname){
+                                                                var dname = req.session.displayname;    
+                                                                
+                                                                res.render('minboard_get', {name:dname, id:req.session.user, mbo: result[0], comment:comment, mb_no:result[0].num, comp:complaint, comp_records: complaint.length});
+                                                        }else{
+                                                                res.render('minboard_get',{err:err});
+                                                        }
+                                                }
+                                        })
                                 }
                         });
                 }

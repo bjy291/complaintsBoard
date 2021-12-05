@@ -142,13 +142,15 @@ exports.delete_minComplaints=function(req, res){
 exports.chart1=function(req,res){ 
         var date = new Date();
         var month = date.getMonth()+1
-        var sql = "SELECT date_format(mb_date,'%m') as month, date_format(mb_date,'%d') as day FROM min_board WHERE mb_date BETWEEN '2021-?-01' AND '2021-?-30';"
+        var year = date.getFullYear();
 
-        db.query(sql,[month, month],function(err, result){
+        var sql = "SELECT date_format(mb_date,'%m') as month, date_format(mb_date,'%d') as day FROM min_board WHERE mb_date like CONCAT('%',?-?,'%')"
+
+        db.query(sql,[ year,month],function(err, result){
                 if(err) console.log(err)
                 else{
-                        sql = "SELECT  date_format(mb_date,'%d') as day, COUNT(*) as cnt FROM min_board WHERE mb_date BETWEEN '2021-?-01' AND '2021-?-30' GROUP BY 1"
-                        db.query(sql,[month, month], function(err, result2){
+                        sql = "SELECT  date_format(mb_date,'%d') as day, COUNT(*) as cnt FROM min_board WHERE mb_date like CONCAT('%',?-?,'%') GROUP BY 1"
+                        db.query(sql,[ year,month], function(err, result2){
                                 if(err) console.log("chart sql 2 err : " + err);
                                 else{
                                         if(req.session.displayname){
@@ -173,3 +175,50 @@ exports.chart1=function(req,res){
                 }
         })
     };
+
+exports.chartMonth=function(req, res){
+        var date = new Date();
+        var month = req.body.month;
+        var year = date.getFullYear();
+
+        sql = 'SELECT  date_format(mb_date,"%d") as day, COUNT(*) as cnt FROM min_board WHERE mb_date like CONCAT("%","'
+        sql += year+'-'+month
+        sql += '","%") GROUP BY 1'
+
+        db.query(sql, function(err, result2){
+                                if(err) console.log("chart post err : " + err);
+                                else{
+                                        sql2='SELECT A.day, ifnull(B.cnt, 0) as cnt FROM (SELECT  date_format(mb_date,"%d") as day, COUNT(*) as cnt FROM min_board WHERE mb_date LIKE CONCAT("%","'
+                                        sql2+=year+'-'+month
+                                        sql2+='","%") GROUP BY 1) A LEFT OUTER JOIN (SELECT  date_format(mb_date,"%d") as day, COUNT(*) as cnt FROM min_board A, min_Complaint B WHERE mb_date like CONCAT("%","'
+                                        sql2+=year+'-'+month
+                                        sql2+='","%") AND A.mb_no = B.mb_no GROUP BY 1) B ON A.day = B.day'
+                                        db.query(sql2, function(err, result3){
+                                                if(err) console.log(err)
+                                                else{
+                                                        var DayList = [];
+                                                        for (day of result2){
+                                                                DayList.push(day.day);
+                                                        }
+
+                                                        var CntList = [];
+                                                        for (cnt of result2){
+                                                                CntList.push(cnt.cnt)
+                                                        }
+
+                                                        var DayList2 = [];
+                                                        for (day of result3){
+                                                                DayList2.push(day.day);
+                                                        }
+
+                                                        var CntList2 = [];
+                                                        for (cnt of result3){
+                                                                CntList2.push(cnt.cnt)
+                                                        }
+                                                        console.log(CntList2);
+                                                        res.send({"chartDAY": DayList, "chartCNT":CntList, "records": result2.length, "chartDAY2": DayList2, "chartCNT2":CntList2})
+                                                }
+                                        })
+                                }
+                        }) 
+}

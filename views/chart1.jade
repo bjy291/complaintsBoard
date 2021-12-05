@@ -24,13 +24,15 @@ div(id="contents" class="wrap")
                         a(href="/root/chart1") 일정관리
         #tCon
             #maincontent
-                h3 민원 현황
+                h3 민원 등록/처리 현황
                 hr#sideline
             .card-body
                 div(class="aa")
                     input#ChartDAY(type="text" value=chartDAY style="display:none;")
                     input#ChartCNT(type="text" value=chartCNT style="display:none;")
-                    select#select(name='month')
+                    input#ChartDAY2(type="text" value=chartDAY2 style="display:none;")
+                    input#ChartCNT2(type="text" value=chartCNT2 style="display:none;")
+                    select#select.month(name='month')
                         option(value='1') 1월
                         option(value='2') 2월
                         option(value='3') 3월
@@ -43,7 +45,7 @@ div(id="contents" class="wrap")
                         option(value='10') 10월
                         option(value='11') 11월
                         option(value='12') 12월
-                    button(onclick='select()') 조회
+                    button(onclick="select()") 조회
                     div(id="chart")
 
 
@@ -51,15 +53,29 @@ div(id="contents" class="wrap")
 include ./footer.jade
                 script.
                     
-                    $(document).ready(function () {
+                    //- $(document).ready(function () {
+                        
+                    //- });
+
+                    function getChart(){
+                        //chart.removePlotBand('chart');
                         var dData = $("#ChartDAY").val();
                         var cData = $("#ChartCNT").val();
 
+                        var dData2 = $("#ChartDAY2").val();
+                        var cData2 = $("#ChartCNT2").val();
+                        
                         var DayList = [];
                         DayList = dData.split(",")
                         
                         var CntList = [];
                         CntList = cData.split(",").map(Number);
+
+                        var DayList2 = [];
+                        DayList2 = dData2.split(",")
+                        
+                        var CntList2 = [];
+                        CntList2 = cData2.split(",").map(Number);
 
                         const Chart = toastui.Chart;
                         const el = document.getElementById('chart');
@@ -72,12 +88,12 @@ include ./footer.jade
                             },
                             {
                             name: '요청/업무',
-                            data: [1,3,2,3,4,6,1]
+                            data: CntList2
                             }
                         ]
                         };
                         const options = {
-                            chart: {title: '월간 민원/요청 현황', width: 700, height: 400 },
+                            chart: {title: '월간 민원등록/처리 현황', width: 700, height: 400 },
                             xAxis: { pointOnColumn: false, title: { text: 'Day' } },
                             yAxis: 
                                     {
@@ -94,7 +110,36 @@ include ./footer.jade
                         // const chart = new BarChart({ el, data, options });
                         
                         const chart2 = toastui.Chart.areaChart({el, data, options });
-                        
-                    });
+
+                    }
+
+                    function select(){
+                        var month = $(".month").val();
+
+                        $.ajax({
+                            type : "POST",
+                            url : "/root/chartMonth",
+                            data : {"month":month},
+                            dataType : "json",
+                            async : true,
+                            cashe : false,
+                            success : function(data){
+                                if(data.records > 0){
+                                    $("#ChartDAY").val(data.chartDAY);
+                                    $("#ChartCNT").val(data.chartCNT);
+                                    $("#ChartDAY2").val(data.chartDAY2);
+                                    $("#ChartCNT2").val(data.chartCNT2);
+                                    //remove_Chart()
+                                    getChart();
+                                }
+                                else{
+                                    alert('조회된 데이터가 없습니다.')
+                                }
+                            },
+                            error : function(jqXHR) {
+                                alert("처리중 오류");
+                            }
+                        })
+                    }
 
                     
