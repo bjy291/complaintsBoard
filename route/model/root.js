@@ -141,9 +141,9 @@ exports.delete_minComplaints=function(req, res){
 
 exports.chart1=function(req,res){ 
         var date = new Date();
-        var month = date.getMonth()+1
+        var month = date.getMonth()
         var year = date.getFullYear();
-
+        console.log(month)
         var sql = "SELECT date_format(mb_date,'%m') as month, date_format(mb_date,'%d') as day FROM min_board WHERE mb_date like CONCAT('%',?-?,'%')"
 
         db.query(sql,[ year,month],function(err, result){
@@ -190,7 +190,7 @@ exports.chartMonth=function(req, res){
                                 else{
                                         sql2='SELECT A.day, ifnull(B.cnt, 0) as cnt FROM (SELECT  date_format(mb_date,"%d") as day, COUNT(*) as cnt FROM min_board WHERE mb_date LIKE CONCAT("%","'
                                         sql2+=year+'-'+month
-                                        sql2+='","%") GROUP BY 1) A LEFT OUTER JOIN (SELECT  date_format(mb_date,"%d") as day, COUNT(*) as cnt FROM min_board A, min_Complaint B WHERE mb_date like CONCAT("%","'
+                                        sql2+='","%") GROUP BY 1) A LEFT OUTER JOIN (SELECT  date_format(mb_date,"%d") as day, COUNT(*) as cnt FROM min_board A, (SELECT mb_no FROM min_Complaint GROUP BY 1) B WHERE mb_date like CONCAT("%","'
                                         sql2+=year+'-'+month
                                         sql2+='","%") AND A.mb_no = B.mb_no GROUP BY 1) B ON A.day = B.day'
                                         db.query(sql2, function(err, result3){
@@ -222,3 +222,13 @@ exports.chartMonth=function(req, res){
                                 }
                         }) 
 }
+
+
+exports.calender=function(req,res){ 
+        if(req.session.displayname){
+                var dname=req.session.displayname;
+                res.render('calender',{name:dname});
+        }else{
+                res.render('calender'); 
+        }
+    };

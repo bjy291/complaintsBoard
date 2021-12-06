@@ -21,14 +21,15 @@ html
 
         body(id="dong24")
             div(id="top")
-                if(name)
-                    a#login(href="/login/logout") 로그아웃
-                    if(id!="root")
-                        a#login(href="#") 회원정보
-                    if(name=="root")
-                        a(href="/root") 관리자
-                else  
-                    a#login(href="/login") 로그인
+                .topsize
+                    if(name)
+                        a#login(href="/login/logout") 로그아웃
+                        if(id!="root")
+                            a#login(href="#") 회원정보
+                        if(name=="root")
+                            a#login(href="/root") 관리자
+                    else  
+                        a#login(href="/login") 로그인
                 div(class="wrap")
                     h1 
                         a 민원처리센터

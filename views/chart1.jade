@@ -18,10 +18,10 @@ div(id="contents" class="wrap")
                         a(href="#") FAQ관리
                     hr#sideline
                     li 
-                        a(href="#") 민원 현황
+                        a(href="/root/chart1") 민원 현황
                     hr#sideline
                     li 
-                        a(href="/root/chart1") 일정관리
+                        a(href="/root/calender") 일정관리
         #tCon
             #maincontent
                 h3 민원 등록/처리 현황
@@ -53,9 +53,9 @@ div(id="contents" class="wrap")
 include ./footer.jade
                 script.
                     
-                    //- $(document).ready(function () {
-                        
-                    //- });
+                    $(document).ready(function () {
+
+                    });
 
                     function getChart(){
                         //chart.removePlotBand('chart');
@@ -87,7 +87,7 @@ include ./footer.jade
                             data: CntList
                             },
                             {
-                            name: '요청/업무',
+                            name: '처리된 문의수',
                             data: CntList2
                             }
                         ]
@@ -102,11 +102,12 @@ include ./footer.jade
                                         min: 0,
                                         max: 10,
                                         },
-                                    }
+                                    },
+                            series: { showDot: true, dataLabels: { visible: true, offsetY: 10 }, eventDetectType: 'grouped' }
                             
                         };
 
-                        const chart = Chart.lineChart({ el, data, options });
+                        const chart = Chart.columnChart({ el, data, options });
                         // const chart = new BarChart({ el, data, options });
                         
                         const chart2 = toastui.Chart.areaChart({el, data, options });
@@ -114,6 +115,7 @@ include ./footer.jade
                     }
 
                     function select(){
+                        
                         var month = $(".month").val();
 
                         $.ajax({
