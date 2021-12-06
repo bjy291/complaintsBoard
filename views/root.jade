@@ -118,6 +118,9 @@ include ./footer.jade
 
                         $('#btn_add').click(function(){
                             grid2.appendRow([],{"at":0});
+                            grid2.addColumnClassName('complaints_title','red_cell')
+                            grid2.addColumnClassName('complaints_complete','red_cell')
+                            grid2.addColumnClassName('complaints_content','red_cell')
                         });
                         
                         
@@ -140,6 +143,11 @@ include ./footer.jade
                             duration : 200
                         });
                         $("#max_date").datepicker('setDate', 'today');
+
+                        
+                        $("#btn_save").hide();
+                        $("#btn_add").hide();
+                        $("#btn_delete").hide();
                         
                     });
 
@@ -222,13 +230,22 @@ include ./footer.jade
                             cashe : false,
                             success : function(data){
                                 if(data.records > 0){
-                                $("#mb_title").text(data.data.mb_title)
+                                    $("#mb_title").text(data.data.mb_title)
 
-                                gridData1=data.data;
-                                grid1.clear();
-                                grid1.refreshLayout();
-                                grid1.resetData(gridData1);
+                                    gridData1=data.data;
+                                    grid1.clear();
+                                    grid1.refreshLayout();
+                                    grid1.resetData(gridData1);
 
+                                    $("#btn_save").show();
+                                    $("#btn_add").show();
+                                    $("#btn_delete").show();
+                                    
+                                    for(var i=0; data.data.length; i++){
+                                        if(data.data[i].b_status == '미처리'){
+                                            grid1.addCellClassName(i,"b_status" , "red_text")
+                                        }
+                                    }                          
                                 }
                                 else{
                                     alert('조회된 데이터가 없습니다.')

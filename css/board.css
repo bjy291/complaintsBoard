@@ -207,3 +207,28 @@
 .pagediv ul li a:hover, .pagediv ul li a:focus {  
     color:red;    
 }
+
+.tui-grid-cell{
+	border-left-width: 1px; 
+    border-right-width: 1px; 
+    border-top-width: 1px; 
+    border-bottom-width: 1px;
+    border : 1px solid #d4d0c8;
+}
+
+.tui-grid-cell-disabled{
+    color: #333;
+}
+.tui-grid-container{
+    z-index: 0;
+}
+.red_text{
+    color:red;
+}
+.tui-grid-cell {
+    background-color: rgba(0, 169, 255, 0.15);
+}
+
+td.tui-grid-cell.tui-grid-cell-has-input.tui-grid-cell-editable.red_cell{
+	background-color : #FFA7A7;
+}
