@@ -49,12 +49,12 @@ div(id="contents" class="wrap")
                                                                 td=re.mb_no
                                                                 td=re.mb_sub_cate 
                                                                 td
-                                                                    if(re.b_stuts = 0)
+                                                                    if(re.b_status==0)
                                                                         a X
                                                                     else 
                                                                         a O 
                                                                 td
-                                                                    a(href="/minborad_get?num="+re.mb_no)=re.mb_title 
+                                                                    a#titleget(href="/minborad_get?num="+re.mb_no)=re.mb_title 
                                                                 td=re.mb_writer 
                                                                 td=re.mb_date 
                                                                 td=re.b_inquiry

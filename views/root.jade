@@ -148,7 +148,7 @@ include ./footer.jade
                             showAnim : "show",
                             duration : 200
                         });
-                        $("#max_date").datepicker('setDate', 'today');
+                        $("#max_date").datepicker('setDate', '+1D');
 
                         
                         $("#btn_save").hide();
@@ -250,7 +250,9 @@ include ./footer.jade
                                     }                          
                                 }
                                 else{
-                                    alert('조회된 데이터가 없습니다.')
+                                    grid1.clear();
+                                    grid1.refreshLayout();
+                                    alert('조회된 데이터가 없습니다.');
                                 }
                             },
                             error : function(jqXHR) {
@@ -304,6 +306,7 @@ include ./footer.jade
                         var sendUrl = "/root/insert_minComplaints";
                         
                         var createdRows = temp.createdRows
+
                         //var jsonData = JSON.stringify(createdRows);
                         $.ajax({
                             type : sendType,
@@ -323,6 +326,12 @@ include ./footer.jade
                                 grid2.refreshLayout();
                                 grid2.resetData(gridData2);
                                 alert("저장되었습니다");
+
+                                for(var i=0; data.data.length; i++){
+                                        if(data.data[i].b_status == '미처리'){
+                                            grid1.addCellClassName(i,"b_status" , "red_text")
+                                        }
+                                }    
                             },
                             error : function(jqXHR) {
                                     alert("처리중 오류");
