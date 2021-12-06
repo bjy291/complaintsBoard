@@ -111,16 +111,22 @@ include ./footer.jade
                                         grid2.clear();
                                         grid2.refreshLayout();
                                         grid2.resetData(gridData2);
+
+                                        $("#btn_save").show();
+                                        $("#btn_add").show();
+                                        $("#btn_delete").show();
                                     }
                                 })
                             }
                         })
 
                         $('#btn_add').click(function(){
+                            var cnt = grid2.getRowCount();
                             grid2.appendRow([],{"at":0});
-                            grid2.addColumnClassName('complaints_title','red_cell')
-                            grid2.addColumnClassName('complaints_complete','red_cell')
-                            grid2.addColumnClassName('complaints_content','red_cell')
+
+                            grid2.addCellClassName(cnt,'complaints_title','red_cell')
+                            grid2.addCellClassName(cnt,'complaints_complete','red_cell')
+                            grid2.addCellClassName(cnt,'complaints_content','red_cell')
                         });
                         
                         
@@ -236,10 +242,6 @@ include ./footer.jade
                                     grid1.clear();
                                     grid1.refreshLayout();
                                     grid1.resetData(gridData1);
-
-                                    $("#btn_save").show();
-                                    $("#btn_add").show();
-                                    $("#btn_delete").show();
                                     
                                     for(var i=0; data.data.length; i++){
                                         if(data.data[i].b_status == '미처리'){
@@ -271,6 +273,32 @@ include ./footer.jade
                         
                         var mb_no = grid1.getFocusedCell().rowKey;
                         mb_no = grid1.getValue(mb_no,"mb_no");
+
+                        for(var i=0; i<c_rownum; i++) {
+                            if(temp.createdRows[i]['complaints_title'] == '' || temp.createdRows[i]['complaints_title'] == null){
+                                alert("답변 제목을 입력해주세요.");
+                                return false;
+                            }else if(temp.createdRows[i]['complaints_complete'] == '' || temp.createdRows[i]['complaints_complete'] == null){
+                                alert("처리 예상일을 입력해주세요.");
+                                return false;
+                            }else if(temp.createdRows[i]['complaints_content'] == '' || temp.createdRows[i]['complaints_content'] == null){
+                                alert("답변 내용을 입력해주세요.");
+                                return false;
+                            }
+                        }
+
+                        for(var i=0; i<u_rownum; i++) {
+                            if(temp.updatedRows[i]['complaints_title'] == '' || temp.updatedRows[i]['complaints_title'] == null){
+                                alert("답변 제목을 입력해주세요.");
+                                return false;
+                            }else if(temp.updatedRows[i]['complaints_complete'] == '' || temp.updatedRows[i]['complaints_complete'] == null){
+                                alert("처리 예상일을 입력해주세요.");
+                                return false;
+                            }else if(temp.updatedRows[i]['complaints_content'] == '' || temp.updatedRows[i]['complaints_content'] == null){
+                                alert("답변 내용을 입력해주세요.");
+                                return false;
+                            }
+                        } 
 
                         var sendType = "POST";
                         var sendUrl = "/root/insert_minComplaints";
