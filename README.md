@@ -1,6 +1,9 @@
 # complaintsBoard
 - 4학년 2학기 웹프레임워크 프로젝트
 - 동사무소 민원 게시판.
+- [최종 발표.pptx](https://github.com/bjy291/complaintsBoard/files/8698137/default.pptx)
+- [민원처리센터 최종 보고서.zip](https://github.com/bjy291/complaintsBoard/files/8698141/default.zip)
+
 
 ## 개발전 개발 계획
 
